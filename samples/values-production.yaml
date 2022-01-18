@@ -1,0 +1,280 @@
+# Mandatory values & additional usual values to define for a Thingpark Enterprise helm release.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  ### Plateform configuration
+  installationId: &installationId ""
+  ## Feature settings
+  featuresActivation:
+    dxApi: true
+    iotFlow: true
+    nodeRed: false
+  ## Mail settings
+  outgoingMail: {}
+    ## SMTP enabled configuration sample
+    # outgoingMail: 
+    #   smtpServer: "smtp.example.com"
+    #   smtpAuth:
+    #     login: "user"
+    #     password: "pass"
+    #   port: "465"
+    #   noReplyEmail: "noreply@example.com"
+    #   smtpSecurity: ssl
+  ## BaseStation security settings
+  defaultBsSecurity: "IPSEC_X509"
+  ## AS security level
+  asSecurity: strict
+  ## DNS hostname
+  dnsHostname: &dnsHostname "enterprise.actility.local"
+
+  ## Maps settings
+  mapService: {}
+  ## Google maps config sample
+  # mapService:
+  #   defaultLocation: "" 
+  #   api: "gmaps"
+  #   apiKey: ""
+  ## Openstreet maps config sample
+  # mapService: 
+  #   defaultLocation: ""
+  #   api: "osm"
+  #   osmTile: ""
+  #   osmNominatim: ""
+
+  ### Lora Configuration
+  # Warning : This parameter must be set at initial configuration of TPE Platform. Changing it afterwards can generate malfunction between the devices and the base stations
+  lora: 
+    ismBand: 
+    - "eu868"
+    netId: "000001"
+
+  ### Thingpark service configuration
+
+  repositories:
+    containerImagesRegistry:
+      auth: 
+        username: *installationId
+        password: *installationId
+
+#  repositories:
+#    # Repository used to pull container images
+#    containerImagesRegistry:
+#      fqdn: repository.next.thingpark.com
+#      auth: {}
+#      # Enable Authentication 
+#      #  auth:
+#      #    username: "user"
+#      #    password: "pass"
+#      # Enable Authentication using partner registry
+#      #  auth:
+#      #    username: *installationId
+#      #    password: *installationId
+#      # Namespace owning container images within the registry
+#      namespace: tpe
+#      pullPolicy: IfNotPresent
+#    # Repository used by TPE user to retrieve TPE documentation / firmware images, etc
+#    # This URL is used in the GUI only
+#    thingparkResources:
+#      # mandatory
+#      url: https://repository.next.thingpark.com
+#    # Repository used to retrieve catalogs. This repository must be reachable
+#    # from containers. To use the local repository, let this propery unset.
+#    # thingparkCatalogs: {}
+#    thingparkCatalogs:
+#      url: https://repository.next.thingpark.com
+#      auth: {} # currently not used, authentication done by twa-admin using installationId 
+#      #  auth:
+#      #    username: "user"
+#      #    password: "pass"
+
+  ## Proxy settings
+  outgoingProxy: {}
+
+  ## Proxy config sample without auth
+  # outgoingProxy:
+  #   url: "http://192.168.1.1:8080"
+  #   auth: {}
+  #   useForLrcUplinks: true
+  ## Proxy config sample with basic auth
+  # outgoingProxy:
+  #   url: "http://192.168.1.1:8080"
+  #   auth:
+  #     username: "user"
+  #     password: "pass"
+  #   useForLrcUplinks: false
+
+
+  ## Support contact email
+  supportEmail: "support@actility.com"
+
+  ## Ingress configuration overrides
+  ## Letsencrypt issued certificate. Uncomment acmeSolvers only if you want to use other challenge like dns
+  # ingress:
+  #   tls:
+  #     issuer: "letsencrypt"
+  #     acmeEmail: foo@example.com
+  #     acmeSolvers:
+  #     - http01:
+  #         ingress:
+  #           class: nginx-tpe
+  ## Using a externaly generated certificate
+  # ingress:
+  #   tls:
+  #     issuer: "external"
+  #     certificate: |
+  #       -----BEGIN CERTIFICATE-----
+  #       -----END CERTIFICATE-----
+  #     key: | 
+  #       -----BEGIN PRIVATE KEY-----
+  #       -----END PRIVATE KEY-----
+
+  ## Password overrides 
+  # sqlDb:
+  #   accounts:
+  #     admin:
+  #       username: root
+  #       password: ""
+  #     twa:
+  #       username: "twa"
+  #       password: ""
+  #     smp:
+  #       username: "smp"
+  #       password: ""
+  #     ejbca:
+  #       username: "ejbca"
+  #       password: ""
+  #     wlogger:
+  #       username: "wlogger"
+  #       password: ""
+  #     tpdx:
+  #       username: "tpdx"
+  #       password: ""
+  #     tpdxKeystore:
+  #       username: tpdx_keystore
+  #       password: ""
+  #     tpdxDataflows:
+  #       username: tpdx_dataflows
+  #       password: ""
+  #     tpxConnector:
+  #       username: tpx_connector
+  #       password: ""
+  #     tpxFlowHub:
+  #       username: tpx_flow_hub
+  #       password: ""
+  #     tpxFlowApi:
+  #       username: tpx_flow_api 
+  #       password: ""
+  #     tpxFlowBridge:
+  #       username: tpx_flow_bridge
+  #       password: ""
+  #     tpxFlowSupervisor:
+  #       username: tpx_flow_supervisor
+  #       password: ""
+
+  # mongoDb:
+  #   accounts:
+  #     admin:
+  #       username: clusterAdmin
+  #       password: ""
+  #     userAdmin:
+  #       username: userAdmin
+  #       password: ""
+  #     userBackup:
+  #       username: backup
+  #       password: ""
+  #     twa:
+  #       username: twa
+  #       password: ""
+  #     smp:
+  #       username: smplite
+  #       password: ""
+  #     rfscan:
+  #       username: rfscan 
+  #       password: ""
+  #     netSurvey:
+  #       username: "netsurvey"
+  #       password: ""
+  #     driver:
+  #       username: "driver"
+  #       password: ""
+  #     keyInstaller:
+  #       username: key-installer
+  #       password: ""
+
+backup: {}
+
+  # Configuration to use a minio local deployment (not suitable for disaster recovery)
+  # backup:
+  #   schedule: "30 2 * * *"
+  #   ttl: "720h0m0s"
+  #   s3Compat: 
+  #     url: http://minio.thingpark-enterprise-tools.svc:9000
+  #     accessKey: minio
+  #     secretKey: minio123
+  #     bucket: "thingpark-enterprise-backup"
+
+  # Configuration to use Amazon S3 bucket
+  # backup:
+  #   schedule: "30 2 * * *"
+  #   ttl: "720h0m0s"
+  #   amazon:
+  #     accessKey: 
+  #     secretAccessKey: 
+  #     region: us-east-2
+  #     bucket: "thingpark-enterprise-backup"
+
+  # Configuration to use Azure blob storage
+  # backup:
+  #   schedule: "30 2 * * *"
+  #   ttl: "720h0m0s"
+  #   azure:
+  #     resourceGroup: <resource group>
+  #     storageAccount: <storage account>
+  #     blobContainer: thingpark-enterprise-backup
+  #     cloudName: AzurePublicCloud  # Available values: AzurePublicCloud AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
+  #     subscriptionId: <>
+  #     tenantId: <>
+  #     clientId: <>
+  #     clientSecret: <>
+
+## PriorityClass settings. Adjust priority class value depending your cluster context
+# dataPathPriorityClassValue should be high to avoid packet lost 
+# dataPathPriorityClassValue: 1000000
+# dataPriorityClassValue: 999999
+# servicesPriorityClassValue: 999998
+
+
+## ingress certificate generation
+## Default behavior is to generate an auto-signed certificate. 
+## Uncomment if you want to request a letsencrypt certificate. Require a public access to ingress and a resolved FQDN 
+# tp-gui:
+#   ingress:
+#     rootIngress:
+#       annotations:
+#         cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+## Inbounds settings. 
+## Mandatory if you use a AWS Route 53 managed subdomain to update platform dns alias
+## Use a comma list to use optional dashboard : external-dns.alpha.kubernetes.io/hostname: enterprise.mycompany.org,dashboard.mycompany.org
+# ingress-nginx:
+#   controller:
+#     service:
+#       annotations:
+#         external-dns.alpha.kubernetes.io/hostname: *dnsHostname
+## Clear inbounds for base stations, uncomment to use "DISABLE" or "MIXED" as defaultBsSecurity
+#   tcp:
+#     2404: thingpark-enterprise/tpe-lrc-0:2404
+#     2504: thingpark-enterprise/tpe-lrc-1:2404
+#     3102: thingpark-enterprise/tpe-lrc-cluster:22
+
+## Example use of azure DNS alias to reach tpe deployment. 
+## dnsHostname should be composed of Azure DNS alias followed by Azure region domain name (i.e. thingpark-enterprise.westeurope.cloudapp.azure.com)
+# ingress-nginx:
+#   controller:
+#     service:
+#       annotations:
+#         service.beta.kubernetes.io/azure-dns-label-name: thingpark-enterprise
+
+
+
