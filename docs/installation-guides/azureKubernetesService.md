@@ -72,7 +72,16 @@ eval $(curl $CONFIG_REPO_BASEURL/VERSIONS)
 curl $CONFIG_REPO_BASEURL/samples/values-production.yaml -o custom-values.yaml
 
 ```
-2. Prepare your deployment values following guidelines provided in sample values file. Validate configuration consistency using a dry-run:
+2. Prepare Helm configuration 
+   ```shell   
+   # Configure actility helm repository authentication
+   helm repo add --username <InstallationID> --password <InstallationID> actility https://repository.next.thingpark.com/charts
+   helm repo update
+   # Set the deployment namespace as an environment variable
+   export NAMESPACE=thingpark-enterprise
+   ```
+  
+3. Prepare your deployment values following guidelines provided in sample values file. Validate configuration consistency using a dry-run:
 
 ```shell 
 helm upgrade -i --dry-run tpe actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
@@ -80,13 +89,6 @@ helm upgrade -i --dry-run tpe actility/thingpark-enterprise --version $THINGPARK
 ```
 
 ### STEP 2: Data stack deployment
-1. Prepare Helm configuration 
-   ```shell   
-   # Configure actility helm repository authentication
-   helm repo add --username <InstallationID> --password <InstallationID> actility https://repository.next.thingpark.com/charts
-   # Set the deployment namespace as an environment variable
-   export NAMESPACE=thingpark-enterprise
-   ```
 
 2. Deploy the chart using your customization: 
 ```shell
@@ -101,7 +103,7 @@ helm  upgrade -i tpe-data -n $NAMESPACE \
 ```
 
 ### STEP 3: ThingPark Enterprise deployment
-1. Deploy the chart using your customization: 
+1. Deploy the `thingpark-enterprise-controllers` chart:
 ```shell
 helm upgrade -i tpe-controllers -n $NAMESPACE \
   actility/thingpark-enterprise-controllers --version $THINGPARK_ENTERPRISE_CONTROLLERS_VERSION \
@@ -110,7 +112,7 @@ helm upgrade -i tpe-controllers -n $NAMESPACE \
 
 ```
 
-2. 
+2. Finally deploy the `thingpark-enterprise` chart using your customization:
 ```shell
 helm upgrade -i tpe --debug --timeout 10m -n $NAMESPACE \
   actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \

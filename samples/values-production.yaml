@@ -87,19 +87,19 @@ global:
   #   tls:
   #     issuer: "letsencrypt"
   #     acmeEmail: foo@example.com
-  #     acmeSolvers:
-  #     - http01:
-  #         ingress:
-  #           class: nginx-tpe
+  #     # acmeSolvers:
+  #     # - http01:
+  #     #     ingress:
+  #     #       class: nginx-tpe
 
 # For the OPTION 3 Letencrypt, netx block should be uncommented
 # Require a public access to ingress and a resolved FQDN 
 # tp-gui:
 #   ingress:
-#     rootIngress:
-#       annotations:
-#         cert-manager.io/cluster-issuer: "letsencrypt-prod"
-
+#     items:
+#       gui:
+#         annotations:
+#           cert-manager.io/issuer: "letsencrypt-prod"
 ### INBOUND: FLOW & DNS ###
 # Configure ingress-nginx controller for DNS and Inbound base station flows
 ingress-nginx:
@@ -135,11 +135,9 @@ ingress-nginx:
 
 ### BACKUP CONFIGURATION ###
 # MANDATORY: A storage volume is required for upgrade rollback
-backup: {}
 # OPTION 1: Configuration to use a minio local deployment ( https://docs.min.io/)
 # backup:
 #   schedule: "30 2 * * *"
-#   ttl: "720h0m0s"
 #   s3Compat: 
 #     url: http://minio.thingpark-enterprise-tools.svc:9000
 #     accessKey: minio
@@ -149,7 +147,6 @@ backup: {}
 # OPTION 2: Configuration to use AMAZON S3 bucket
 # backup:
 #   schedule: "30 2 * * *"
-#   ttl: "720h0m0s"
 #   amazon:
 #     accessKey: 
 #     secretAccessKey: 
@@ -159,7 +156,6 @@ backup: {}
 # OPTION 3: Configuration to use Azure blob storage
 # backup:
 #   schedule: "30 2 * * *"
-#   ttl: "720h0m0s"
 #   azure:
 #     resourceGroup: <resource group>
 #     storageAccount: <storage account>
@@ -245,4 +241,32 @@ backup: {}
   #       password: ""
 
 
+### DATA STACK COMPONENTS CONFIGURAION ###
+# Default values for thingpark-enterprise.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
 
+
+# mongo-replicaset:
+#   accounts:
+#     admin:
+#       username: clusterAdmin
+#       password: "actility"
+#     userAdmin:
+#       username: userAdmin
+#       password: "actility"
+#     userBackup:
+#       username: backup
+#       password: "actility"
+#     clusterMonitor:
+#       username: clusterMonitor
+#       password: "actility"
+#     pmm:
+#       username: pmm
+#       password: "actility"
+
+
+
+# mariadb-galera:
+#   rootUser:
+#     password: "actility"
