@@ -46,9 +46,8 @@ Installation processus will provision dynamically following resources:
 
 #### Data stack
 
-- The data stack is composed by database & messaging service. 
-- Currently, the only supported option to fulfill requirements is to deploy `thingpark-data` helm chart. 
-- For Information, appendix provide details about this stack 
+- The data stack include database & messaging service required by TPE.The only supported option to fulfill these requirements is to deploy `thingpark-data` helm chart. 
+- For information, appendix provide details about this stack 
 
 #### Infrastructure stack
 
@@ -65,61 +64,71 @@ Installation processus will provision dynamically following resources:
 ## 2. Installation
 
 ### STEP 1: Configuration preparation
-1. Retrieve configuration bootstrap sample:
-```shell 
-export CONFIG_REPO_BASEURL=https://github.com/actility/thingpark-enterprise-kubernetes/raw/main
-eval $(curl $CONFIG_REPO_BASEURL/VERSIONS)
-curl $CONFIG_REPO_BASEURL/samples/values-production.yaml -o custom-values.yaml
+1. Retrieve configuration bootstrap sample
+    ```shell 
+    export CONFIG_REPO_BASEURL=https://github.com/actility/thingpark-enterprise-kubernetes/raw/main
+    eval $(curl $CONFIG_REPO_BASEURL/VERSIONS)
+    curl $CONFIG_REPO_BASEURL/samples/values-production.yaml -o custom-values.yaml
+    ```
 
-```
 2. Prepare Helm configuration 
-   ```shell   
-   # Configure actility helm repository authentication
-   helm repo add --username <InstallationID> --password <InstallationID> actility https://repository.next.thingpark.com/charts
-   helm repo update
-   # Set the deployment namespace as an environment variable
-   export NAMESPACE=thingpark-enterprise
-   ```
+    ```shell   
+    # Configure actility helm repository authentication
+    helm repo add --username <InstallationID> --password <InstallationID> actility https://repository.next.thingpark.com/charts
+    helm repo update
+    # Set the deployment namespace as an environment variable
+    export NAMESPACE=thingpark-enterprise
+    ```
   
-3. Prepare your deployment values following guidelines provided in sample values file. Validate configuration consistency using a dry-run:
-
-```shell 
-helm upgrade -i --dry-run tpe actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
--f custom-values.yaml
-```
+3. Prepare your deployment values following guidelines provided in sample values file. Validate configuration consistency using a dry-run
+    ```shell 
+    helm upgrade -i --dry-run tpe actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
+    -f custom-values.yaml
+    ```
 
 ### STEP 2: Data stack deployment
 
-2. Deploy the chart using your customization: 
-```shell
-helm upgrade -i tpe-data-controllers -n $NAMESPACE --create-namespace  \
-   actility/thingpark-data-controllers --version $THINGPARK_DATA_CONTROLLERS_VERSION
+1. Deploy the chart using your customization
+    ```shell
+    helm upgrade -i tpe-data-controllers -n $NAMESPACE --create-namespace  \
+      actility/thingpark-data-controllers --version $THINGPARK_DATA_CONTROLLERS_VERSION
 
-helm  upgrade -i tpe-data -n $NAMESPACE \
-  actility/thingpark-data --version $THINGPARK_DATA_VERSION \
-  -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
-  -f $CONFIG_REPO_BASEURL/configs/distributions/values-azure-aks.yaml \
-  -f custom-values.yaml
-```
-
+    helm  upgrade -i tpe-data -n $NAMESPACE \
+      actility/thingpark-data --version $THINGPARK_DATA_VERSION \
+      -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
+      -f $CONFIG_REPO_BASEURL/configs/distributions/values-azure-aks.yaml \
+      -f custom-values.yaml
+    ```
 ### STEP 3: ThingPark Enterprise deployment
-1. Deploy the `thingpark-enterprise-controllers` chart:
-```shell
-helm upgrade -i tpe-controllers -n $NAMESPACE \
-  actility/thingpark-enterprise-controllers --version $THINGPARK_ENTERPRISE_CONTROLLERS_VERSION \
-  -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
-  -f custom-values.yaml
+1. Deploy the `thingpark-enterprise-controllers` chart
+    ```shell
+    helm upgrade -i tpe-controllers -n $NAMESPACE \
+      actility/thingpark-enterprise-controllers --version $THINGPARK_ENTERPRISE_CONTROLLERS_VERSION \
+      -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
+      -f custom-values.yaml
+    ```
+2. Wait for all statefulsets and deployments readiness. It can be check in following ways:
 
-```
+    ```shell
+    kubectl get -n $NAMESPACE statefulsets.apps,deployments.apps
+    kubectl get -n $NAMESPACE -w statefulsets.apps
+    ```
 
-2. Finally deploy the `thingpark-enterprise` chart using your customization:
-```shell
-helm upgrade -i tpe --debug --timeout 10m -n $NAMESPACE \
-  actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
-  -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
-  -f $CONFIG_REPO_BASEURL/configs/distributions/values-azure-aks.yaml \
-  -f custom-values.yaml
-```
+3. Finally deploy the `thingpark-enterprise` chart using your customization:
+    ```shell
+    helm upgrade -i tpe --debug --timeout 10m -n $NAMESPACE \
+      actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
+      -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
+      -f $CONFIG_REPO_BASEURL/configs/distributions/values-azure-aks.yaml \
+      -f custom-values.yaml
+    ```
+2. Wait for all statefulsets and deployments readiness:
+
+    ```shell
+    kubectl get -n $NAMESPACE statefulsets.apps,deployments.apps
+    kubectl get -n $NAMESPACE -w statefulsets.apps
+    kubectl get -n $NAMESPACE -w deployments.apps
+    ```
 
 ## 3. Post installation considerations
 
@@ -128,7 +137,6 @@ helm upgrade -i tpe --debug --timeout 10m -n $NAMESPACE \
 kubectl get svc ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
 2. You **MUST** version controle custom-values.yaml file for disaster recovery
-
 
 ## Additional references
 

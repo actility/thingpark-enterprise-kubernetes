@@ -3,13 +3,10 @@
 ## Installation 
 
 - Please contact Actility Sales team before attempting to start a new deployment
-- Then follow installation guide instruction to deploy on targeted environment:
-    - [Azure Kubernetes Service](docs/installation-guides/azureKubernetesService.md) deployment
+- Then follow [**installation guide**](docs/installation-guides/README.md) instructions to deploy on targeted environment
 
 ## Operation
-
-- Additional guides are available under [operation guides folder](docs/operation-guides/README.md) 
-
+- Additional guides are available under [**operation guides**](docs/operation-guides/README.md) folder.
 
 ## Project structure
 - `configs/distributions`: provide values to configure deployment on supported kubernetes distributions
