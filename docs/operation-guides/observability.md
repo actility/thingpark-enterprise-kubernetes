@@ -4,17 +4,17 @@
 
 The overall health of ThingPark Enterprise can be measured by choosing a [Client Library](https://kubernetes.io/docs/reference/using-api/client-libraries/) to poll each next API items:
 
-1. Network server disruption tolerance is defined in `tpe-lrc` [Pod disruption budgets](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#pod-disruption-budgets) in order to protect service from volontary disruptions. Check that  `status.currentHealthy >= 1` using either:
-   - a polling on  `apis/policy/v1beta1/namespaces/thingpark-enterprise/poddisruptionbudgets/tpe-lrc`  
-   - watching `apis/policy/v1beta1/watch/namespaces/thingpark-enterprise/poddisruptionbudgets/tpe-lrc` events object.
+1. Network server disruption tolerance is defined in `lrc` [Pod disruption budgets](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#pod-disruption-budgets) in order to protect service from volontary disruptions. Check that  `status.currentHealthy >= 1` using either:
+   - a polling on  `apis/policy/v1beta1/namespaces/<namespace>/poddisruptionbudgets/lrc`  
+   - watching `apis/policy/v1beta1/watch/namespaces/<namespace>/poddisruptionbudgets/lrc` events object.
 
 2. Smp is healthful when `status.availableReplicas >= 1 ` using either:
-   - a polling on  `apis/apps/v1/namespaces/thingpark-enterprise/deployments/tpe-smp-tpe`
-   - watching `apis/apps/v1/watch/namespaces/thingpark-enterprise/deployments/tpe-smp-tpe`events object.
+   - a polling on  `apis/apps/v1/namespaces/<namespace>/deployments/smp-tpe`
+   - watching `apis/apps/v1/watch/namespaces/<namespace>/deployments/smp-tpe`events object.
 
 3. Twa is healthful when `status.availableReplicas >= 1 ` using either:
-   - a polling on  `apis/apps/v1/namespaces/thingpark-enterprise/deployments/tpe-twa`
-   - watching `apis/apps/v1/watch/namespaces/thingpark-enterprise/deployments/tpe-twa`events object.
+   - a polling on  `apis/apps/v1/namespaces/<namespace>/deployments/twa`
+   - watching `apis/apps/v1/watch/namespaces/<namespace>/deployments/twa`events object.
 
 ## Tooling 
 

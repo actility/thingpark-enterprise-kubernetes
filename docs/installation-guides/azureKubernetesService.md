@@ -1,11 +1,7 @@
 # ThingPark Enterprise on Azure Kubernetes Service
 ---
 ## 1. Overview
-
-### 1.1 Licensing
-- Before starting to deploy, you must contact Sales to obtain required Licences & Installation ID.
-
-### 1.2. Requirements
+### 1.1. Requirements
 #### Workstation
 
 - Linux with bash shell
@@ -36,7 +32,7 @@ ThingPark Enterprise OCP deployment have following requirement:
   - A Secret 
   - A TenantID
 
-### 1.3. Additional provisioned resources
+### 1.2. Additional provisioned resources
 #### Cloud resources
 
 Installation processus will provision dynamically following resources:
@@ -56,7 +52,7 @@ Installation processus will provision dynamically following resources:
   - ingress-nginx controller
   - cert manager
 
-### 1.4. Current limitations
+### 1.3. Current limitations
 
 - See [Limitations](./limitations.md)
 
@@ -74,7 +70,7 @@ Installation processus will provision dynamically following resources:
 2. Prepare Helm configuration 
     ```shell   
     # Configure actility helm repository authentication
-    helm repo add --username <InstallationID> --password <InstallationID> actility https://repository.next.thingpark.com/charts
+    helm repo add --username <InstallationID> --password <InstallationID> actility https://repository.thingpark.com/charts
     helm repo update
     # Set the deployment namespace as an environment variable
     export NAMESPACE=thingpark-enterprise

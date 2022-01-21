@@ -1,9 +1,11 @@
 # Thingpark Enterprise deployment on kubernetes
 
-## Installation 
 
+## Licensing
 - Please contact Actility Sales team before attempting to start a new deployment
-- Then follow [**installation guide**](docs/installation-guides/README.md) instructions to deploy on targeted environment
+
+## Installation 
+- Follow [**installation guide**](docs/installation-guides/README.md) instructions to deploy on targeted environment
 
 ## Operation
 - Additional guides are available under [**operation guides**](docs/operation-guides/README.md) folder.
