@@ -1,14 +1,13 @@
 # Installation Guides
 ## 1. Overview
 ### 1.1. Deployment components
-Thingpark Enterprise deployment on kubernetes is composed of a **Data Stack** and the  **ThingPark Stack**.
-Each stack is deployed by 2 charts:
+Thingpark Enterprise deployment on kubernetes is composed of a **ThingPark Data Stack** and the  **ThingPark Enterprise Stack**.
+Each stack is deployed by 2 Helm Charts:
 - One installing required kubernetes extentions like operators and other controllers 
 - One installing applications
 
-
 ```
-                                    DATA STACK                       |                  THINGPARK STACK
+                               THINGPARK DATA STACK                  |            THINGPARK ENTERPRISE STACK
                                                                      |  
                     -------------------------------------------------------------------------------------------------
                                                                      |
