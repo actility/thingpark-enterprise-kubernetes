@@ -52,10 +52,6 @@ Installation processus will provision dynamically following resources:
   - ingress-nginx controller
   - cert manager
 
-### 1.3. Current limitations
-
-- See [Limitations](./limitations.md)
-
 ---
 ## 2. Installation
 
@@ -133,39 +129,3 @@ Installation processus will provision dynamically following resources:
 kubectl get svc ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
 2. You **MUST** version controle custom-values.yaml file for disaster recovery
-
-## Additional references
-
-[Cert Manager](https://cert-manager.io/docs/) allow to provision certificates from various providers.
-
-## Appendix
-
-### thingpark-data chart resources
-`thingpark-data` Chart deploy following  ThingPark Enterprise  databases requirements as kubernetes workloads
-
-- A MariaDB Galera cluster
-- A Kafka cluster
-- A MongoDB replicaset
-
-#### SQL Database
-- A dedicated MariaDB 10.4.22 Galera cluster 
-- An account to create application databases & users
-
-#### Kafka Cluster
-- A Kafka 2.8.1 cluster
-- Preprovisionned topic with following configurations:
-
- topicName                | partitions | replicas | retention.ms | segment.bytes
- ---                      | ---        | ---      | ---          | ---
-OSS.LRR.v1                | 6          | 2        | 21600000     | 107374182
-OSS.DEV.v1                | 6          | 2        | 21600000     | 107374182
-OSS.NOTIF.v1              | 6          | 2        | 21600000     | 107374182
-OSS.TASK.DEV.v1           | 6          | 2        | 21600000     | 107374182
-OSS.TASK.RES.v1           | 6          | 2        | 21600000     | 107374182
-AS.TPX.FLOW.v1            | 6          | 2        | 21600000     | 107374182
-
-#### MongoDB 
-- MongoDB 4.2 cluster 
-- An account to create application collections & users 
-
-
