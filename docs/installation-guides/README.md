@@ -3,7 +3,7 @@
 ### 1.1. Deployment components
 Thingpark Enterprise deployment on kubernetes is composed of a **ThingPark Data Stack** and the  **ThingPark Enterprise Stack**.
 Each stack is deployed by 2 Helm Charts:
-- One installing required kubernetes extentions like operators and other controllers 
+- One installing required kubernetes extensions like operators and other controllers 
 - One installing applications
 
 ```
@@ -27,7 +27,7 @@ Application layer       |                                  |       ◄───�
                                          ▼                                                    ▼
                         ┌──────────────────────────────────┐                  ┌──────────────────────────────────┐
                         |   thingpark-data-controllers     |                  | thingpark-enterprise-controllers |
-Kubernetes extentions   ├──────────────────────────────────┤                  ├──────────────────────────────────┤ 
+Kubernetes extensions   ├──────────────────────────────────┤                  ├──────────────────────────────────┤ 
        layer            |   - Strimzi kafka operator       |                  |   - ingress-nginx controller     |
                         |                                  |                  |                                  |
                         |   - Percona mongodb operator     |                  |   - cert-manager operator        |
@@ -44,7 +44,7 @@ components layer        │                                     & Data plane    
 
 ### 1.2. Ingress/egress network flows 
 
-#### 1.2.1 Base station TO kubernetes cluster (either workers or load balancer):
+#### 1.2.1 Base station TO kubernetes cluster (either workers or load balancer)
 
 - **2022:** key-installer & reverse ssh
 - **2404, 2504:**: LRC1 / LRC2 IEC 104 unencrypted when `defaultBsSecurity` is set to `DISABLE` or  `MIXED`
@@ -58,27 +58,35 @@ components layer        │                                     & Data plane    
 - ICMP: for ip interface failover (optional)
 - NTP
 
-#### 1.2.3. From worstation TO kubernetes cluster (either workers or load balancer):
+#### 1.2.3. From worstation TO kubernetes cluster (either workers or load balancer)
 
 - **HTTPS**:  ThingPark Enterprise Api's access 
 
-#### 1.2.4. From worstation TO kubernetes cluster control plan:
+#### 1.2.4. From worstation TO kubernetes cluster control plan
 
 - **HTTPS**: Api access with a kubernetes cluster admin account
 
-#### 1.2.5. Other flows FROM kubernetes cluster:
+#### 1.2.5. Other flows FROM kubernetes cluster
 
 - **SMTP** to your SMTP server (optional but recommended)
-- **HTTPS** to Actility repositories
-- Application server outbound flows
-- Container images repositories:
-  - repository.thingpark.com
-- Actility repository: 
-  - **HTTPS** to repository.thingpark.com
+- - Application servers outbound flows
+- **HTTPS** to `repository.thingpark.com`  Actility repositories
+- Container images registries:
+  - `https://repository.thingpark.com/`
+  - `https://quay.io` (jetstack/cert-manager)
+  - `https://hub.docker.com/` (percona/percona-server-mongodb-operator, strimzi/strimzi-kafka-operator, bitnami/mariadb-galera, actility/mariadb-galera)
+  - `https://k8s.gcr.io` (kubernetes/ingress-nginx, external-dns)
 
-#### 1.2.6. Other flows TO kubernetes cluster:
-- Application server inbound flows
+#### 1.2.6. Other flows TO kubernetes cluster
+- Application servers inbound flows
 
+#### 1.2.7. Other flows FROM workstation
+Following Helm chart repositories must be accessible to administer the deployment:
+- `https://repository.thingpark.com/`
+- `https://charts.jetstack.io` (jetstack/cert-manager)
+- `https://strimzi.io/charts` (strimzi/strimzi-kafka-operator)
+- `https://percona.github.io` (percona-helm-charts)
+  
 ### 1.3. Current limitations
 
 - See [Limitations](./limitations.md)

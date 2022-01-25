@@ -26,7 +26,7 @@ ThingPark Enterprise OCP deployment have following requirement:
    kubectl label nodes <node2> thingpark.enterprise.actility.com/nodegroup-name=tpe
    kubectl label nodes <node3> thingpark.enterprise.actility.com/nodegroup-name=tpe
    ```
-- A Service Principal allowed to push Blob in a Container. Following informations are will be asked for backup configuration:
+- A `Service Principal` allowed to push Blob in a Container. Following informations are required for backup configuration:
   - A SubscriptionID
   - A ClientId
   - A Secret 
@@ -35,22 +35,27 @@ ThingPark Enterprise OCP deployment have following requirement:
 ### 1.2. Additional provisioned resources
 #### Cloud resources
 
-Installation processus will provision dynamically following resources:
+Installation process will provision dynamically following resources:
 
 - `Premium_LRS` block volumes for cloud persistence (local persistence not covered)
 - Public IP and inbound Load Balancer
 
 #### Data stack
 
-- The data stack include database & messaging service required by TPE.The only supported option to fulfill these requirements is to deploy `thingpark-data` helm chart. 
-- For information, appendix provide details about this stack 
+- The data stack includes database & messaging services required by TPE.
+- The only supported option to fulfill these requirements is to deploy `thingpark-data` helm chart.
+- Following third parties are used:
+  - strimzi/strimzi-kafka-operator
+  - percona/percona-server-mongodb-operator
+  - bitnami/mariadb-galera
 
 #### Infrastructure stack
 
 - Infrastructure stack refer to additional kubernetes operators/controllers required by ThingPark Enterprise deployment. 
 - These requirements are fulfilled by thingpark-enterprise-controllers chart. It optionally deploy following third parties:
-  - ingress-nginx controller
+  - kubernetes/ingress-nginx
   - cert manager
+  - external-dns (optional)
 
 ---
 ## 2. Installation
@@ -128,4 +133,4 @@ Installation processus will provision dynamically following resources:
 ```shell
 kubectl get svc ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
-2. You **MUST** version controle custom-values.yaml file for disaster recovery
+2. Ensure the custom-values.yaml file is carrefully backuped, for example in a GIT repository. This file is required in case of disastery recovery
