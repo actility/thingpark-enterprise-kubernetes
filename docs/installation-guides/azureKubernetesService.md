@@ -26,7 +26,9 @@ ThingPark Enterprise OCP deployment have following requirement:
    kubectl label nodes <node2> thingpark.enterprise.actility.com/nodegroup-name=tpe
    kubectl label nodes <node3> thingpark.enterprise.actility.com/nodegroup-name=tpe
    ```
-- A `Service Principal` allowed to push Blob in a Container. Following informations are required for backup configuration:
+- An `Azure Blob Container` with an optional `lifecycle management policy` to manage backup retention
+
+- A `Service Principal` allowed to push Blob to the Container. Following informations are required for backup configuration:
   - A SubscriptionID
   - A ClientId
   - A Secret 
