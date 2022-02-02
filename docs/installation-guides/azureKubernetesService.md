@@ -79,7 +79,7 @@ Installation process will provision dynamically following resources:
     export NAMESPACE=thingpark-enterprise
     ```
   
-3. Prepare your deployment values following guidelines provided in sample values file. Validate configuration consistency using a dry-run
+3. Prepare your deployment values following guidelines provided in sample values file. Validate configuration consistency using `helm template`
     ```shell 
     helm template tpe actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
     -f custom-values.yaml

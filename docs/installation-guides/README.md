@@ -84,6 +84,7 @@ components layer        │                                     & Data plane    
 Following Helm chart repositories must be accessible to administer the deployment:
 - `https://repository.thingpark.com/`
 - `https://github.com/`
+- `https://raw.githubusercontent.com`
 - `https://charts.jetstack.io` (jetstack/cert-manager)
 - `https://strimzi.io/charts` (strimzi/strimzi-kafka-operator)
 - `https://percona.github.io` (percona-helm-charts)
