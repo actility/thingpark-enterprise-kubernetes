@@ -81,7 +81,7 @@ Installation process will provision dynamically following resources:
   
 3. Prepare your deployment values following guidelines provided in sample values file. Validate configuration consistency using a dry-run
     ```shell 
-    helm upgrade -i --dry-run tpe actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
+    helm template tpe actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
     -f custom-values.yaml
     ```
 
