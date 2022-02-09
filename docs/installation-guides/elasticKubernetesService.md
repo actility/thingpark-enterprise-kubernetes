@@ -51,10 +51,12 @@ Installation process will provision dynamically following resources:
 1. Deploy the chart using your customization
     ```shell
     helm upgrade -i tpe-data-controllers -n $NAMESPACE --create-namespace  \
-      actility/thingpark-data-controllers --version $THINGPARK_DATA_CONTROLLERS_VERSION
+      actility/thingpark-data-controllers --version $THINGPARK_DATA_CONTROLLERS_VERSION \
+      -f $CONFIG_REPO_BASEURL/configs/values.yaml
 
     helm  upgrade -i tpe-data -n $NAMESPACE \
       actility/thingpark-data --version $THINGPARK_DATA_VERSION \
+      -f $CONFIG_REPO_BASEURL/configs/values.yaml \
       -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
       -f $CONFIG_REPO_BASEURL/configs/distributions/values-amazon-eks.yaml \
       -f custom-values.yaml
@@ -63,6 +65,7 @@ Installation process will provision dynamically following resources:
 1. Deploy the `thingpark-enterprise-controllers` chart
     ```shell
     helm upgrade -i tpe-controllers -n $NAMESPACE \
+      -f $CONFIG_REPO_BASEURL/configs/values.yaml \
       actility/thingpark-enterprise-controllers --version $THINGPARK_ENTERPRISE_CONTROLLERS_VERSION \
       -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
       -f custom-values.yaml
@@ -78,6 +81,7 @@ Installation process will provision dynamically following resources:
     ```shell
     helm upgrade -i tpe --debug --timeout 10m -n $NAMESPACE \
       actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
+      -f $CONFIG_REPO_BASEURL/configs/values.yaml \
       -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
       -f $CONFIG_REPO_BASEURL/configs/distributions/values-amazon-eks.yaml \
       -f custom-values.yaml
