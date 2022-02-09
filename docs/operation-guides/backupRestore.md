@@ -59,7 +59,7 @@ Procedure :
     kubectl exec -it -n $NAMESPACE deploy/thingpark-enterprise-controller -- get-backup-metadatas -e backup_name=<backup name>
     ```
 
-4. Trigger restoration (must be confirmed):
+4. Trigger the data restoration (command will ask for confirmation):
     ```shell
     kubectl exec -it -n $NAMESPACE deploy/thingpark-enterprise-controller -- restore -e backup_name=<backup name> 
     ```
