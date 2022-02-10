@@ -8,11 +8,12 @@ Scheduled backup can be enabled after initial deployment by updating helm `thing
     backup:
     schedule: "30 2 * * *"
     ```
-2. Upgrade the chart release
+2. Upgrade the chart release:
 
     ```shell
     helm upgrade -i tpe -n $NAMESPACE \
       actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
+      -f $CONFIG_REPO_BASEURL/configs/values.yaml \
       -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
       -f $CONFIG_REPO_BASEURL/configs/distributions/values-azure-aks.yaml \
       -f custom-values.yaml
@@ -25,12 +26,12 @@ Scheduled backup can be enabled after initial deployment by updating helm `thing
 
 A manual backup can be triggered by running backup script in the thingpark-enterprise-controller deployment context. 
 
-1. Run script through kub api using following command:
+1. Run backup script using kubernetes api exec endpoint:
     ```shell
     kubectl exec -it -n $NAMESPACE deploy/thingpark-enterprise-controller -- backup
     ```
 
-2. Backup are push to blob storage: 
+2. Backup is pushed to blob storage: 
     ```json
     localhost ok: {
         "changed": false,
@@ -54,7 +55,7 @@ Procedure :
     kubectl exec -it -n $NAMESPACE deploy/thingpark-enterprise-controller -- list-backups
     ```
 
-3. Validate that backup `chart`, `appVersion` and `releaseNamespace` match with redeployed version:
+3. Validate that backup `chart`, `appVersion` and `releaseNamespace` fields match with redeployed version:
     ```shell
     kubectl exec -it -n $NAMESPACE deploy/thingpark-enterprise-controller -- get-backup-metadatas -e backup_name=<backup name>
     ```
