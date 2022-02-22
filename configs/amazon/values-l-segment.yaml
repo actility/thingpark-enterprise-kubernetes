@@ -1,0 +1,369 @@
+# Values configuring Thingpark Enterprise deployment for Amazon Elastic Kubernetes Service
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Node selector for Thingpark Enterprise deployment on only 3 nodes
+nodeSelectorKey: &nodeSelectorKey "thingpark.enterprise.actility.com/nodegroup-name"
+nodeSelectorValue: &nodeSelectorValue "tpe"
+nodeSelector: &nodeSelector
+  thingpark.enterprise.actility.com/nodegroup-name: *nodeSelectorValue
+tolerations: &tolerations
+  - key: *nodeSelectorKey
+    operator: "Equal"
+    value: *nodeSelectorValue
+    effect: "NoSchedule"
+## thingpark-data-controllers
+psmdb-operator:
+  tolerations: *tolerations
+  nodeSelector: *nodeSelector
+strimzi-kafka-operator:
+  tolerations: *tolerations
+  nodeSelector: *nodeSelector
+## thingpark-data
+mariadb-galera:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-data
+  resources:
+    limits:
+      memory: 520Mi
+  persistence:
+    size: 10Gi
+    storageClass: "thingpark-gp2-xfs"
+zookeeper:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-data
+  resources:
+    limits:
+      memory: 128Mi
+    requests:
+      memory: 128Mi
+  persistence:
+    size: 5Gi
+    storageClass: "thingpark-gp2-xfs"
+## Data stack configuration
+kafka-cluster:
+  tolerations: *tolerations
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: *nodeSelectorKey
+                operator: In
+                values:
+                  - *nodeSelectorValue
+  priorityClassName: thingpark-enterprise-data
+  kafka:
+    resources:
+      limits:
+        memory: 980Mi
+    persistence:
+      local: false
+      storageSize: 20Gi
+      storageClass: "thingpark-gp2-xfs"
+  zookeeper:
+    resources:
+      limits:
+        memory: 128Mi
+      requests:
+        memory: 128Mi
+    persistence:
+      local: false
+      storageSize: 5Gi
+      storageClass: "thingpark-gp2-xfs"
+mongo-replicaset:
+  replicaSet:
+    nodeSelector: *nodeSelector
+    tolerations: *tolerations
+    resources:
+      limits:
+        memory: 5440Mi
+      requests:
+        memory: 3145Mi
+  arbiter:
+    nodeSelector: *nodeSelector
+    tolerations: *tolerations
+    resources:
+      limits:
+        memory: 200Mi
+  priorityClassName: thingpark-enterprise-data
+  persistence:
+    local: false
+    size: 25Gi
+    storageClass: "thingpark-gp2-xfs"
+## thingpark-enterprise-controllers
+cert-manager:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  webhook:
+    nodeSelector: *nodeSelector
+    tolerations: *tolerations
+  cainjector:
+    nodeSelector: *nodeSelector
+    tolerations: *tolerations
+# Ingress nginx service custom annotation for AWS Load Balancer and DNS integrations
+# Set external-dns.alpha.kubernetes.io/hostname annotation value with global.dnsHostname
+ingress-nginx:
+  controller:
+    nodeSelector: *nodeSelector
+    tolerations: *tolerations
+    admissionWebhooks:
+      patch:
+        tolerations: *tolerations
+    priorityClassName: thingpark-enterprise-data-path
+    resources:
+      limits:
+        memory: 256Mi
+    service:
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+        service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '60'
+        service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
+        service.beta.kubernetes.io/aws-load-balancer-type: nlb
+## thingpark-enterprise
+acmeSolvers:
+  - http01:
+      ingress:
+        class: nginx-tpe
+        podTemplate:
+          spec:
+            nodeSelector: *nodeSelector
+            tolerations: *tolerations
+## Persistent Volume Claim setting to use EBS volumes for persistence
+lrc:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-data-path
+  replicaCount: 2
+  lrc:
+    resources:
+      limits:
+        memory: 700Mi
+  lrcSync:
+    resources:
+      limits:
+        memory: 100Mi
+  sftp:
+    resources:
+      limits:
+        memory: 24Mi
+  rfscanBatch:
+    resources:
+      limits:
+        memory: 24Mi
+  persistence:
+    size: 5Gi
+    ftpSize: 10Gi
+    storageClass: "thingpark-gp2-ext4"
+    ftpStorageClass: "thingpark-gp2-xfs"
+sql-proxy:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-data-path
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 180Mi
+tp-gui:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 20Mi
+lrc-proxy:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-data-path
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 60Mi
+support:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 36Mi
+wireless-pki:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 960Mi
+locsolver:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 24Mi
+smp-tpe:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 72Mi
+twa:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 960Mi
+twa-admin:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 120Mi
+twa-dev:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 720Mi
+twa-ran:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 720Mi
+twa-task-res:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 360Mi
+twa-alarm-notif:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 60Mi
+task-notif-ws:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 360Mi
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 5
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 10
+tpx-flow:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-data-path
+  engine:
+    replicaCount: 2
+    resources:
+      limits:
+        memory: 120Mi
+  supervisor:
+    replicaCount: 1
+    resources:
+      limits:
+        memory: 360Mi
+  hub:
+    replicaCount: 2
+    resources:
+      limits:
+        memory: 360Mi
+  bridge:
+    replicaCount: 1
+    resources:
+      limits:
+        memory: 360Mi
+  api:
+    replicaCount: 2
+    resources:
+      limits:
+        memory: 360Mi
+tp-dx:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-data-path
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 360Mi
+node-red:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-data-path
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 120Mi
+  persistence:
+    size: 10Gi
+    storageClass: "thingpark-gp2-xfs"
+nssa:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  networkSurvey:
+    replicaCount: 1
+    resources:
+      limits:
+        memory: 24Mi
+  spectrumAnalysis:
+    replicaCount: 1
+    resources:
+      limits:
+        memory: 24Mi
+wlogger:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 180Mi
+shellinabox:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 24Mi
+# Values configuring Thingpark Enterprise deployment for Amazon Elastic Kubernetes Service
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+global:
+  storageType: "aws-ebs-gp2"

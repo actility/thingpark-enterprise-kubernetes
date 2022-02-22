@@ -1,9 +1,48 @@
+kafka-cluster:
+  priorityClassName: thingpark-enterprise-data
+  kafka:
+    resources:
+      limits:
+        memory: 840Mi
+  zookeeper:
+    resources:
+      limits:
+        memory: 128Mi
+      requests:
+        memory: 128Mi
+     
+mongo-replicaset:
+  priorityClassName: thingpark-enterprise-data
+  replicaSet:
+    resources:
+      limits:
+        memory: 3145Mi
+  arbiter:
+    resources:
+      limits:
+        memory: 200Mi
+
+zookeeper:
+  priorityClassName: thingpark-enterprise-data
+  resources:
+    limits:
+      memory: 128Mi
+    requests:
+      memory: 128Mi
+
+mariadb-galera:
+  priorityClassName: thingpark-enterprise-data
+  resources:
+    limits:
+      memory: 460Mi
+
+
 sql-proxy:
   priorityClassName: thingpark-enterprise-data-path
   replicaCount: 2
   resources:
     limits:
-      memory: 100Mi
+      memory: 165Mi
 
 lrc:
   priorityClassName: thingpark-enterprise-data-path
@@ -11,7 +50,7 @@ lrc:
   lrc:
     resources:
       limits:
-        memory: 1024Mi
+        memory: 475Mi
   lrcSync:
     resources:
       limits:
@@ -19,43 +58,39 @@ lrc:
   sftp:
     resources:
       limits:
-        memory: 100Mi
+        memory: 22Mi
   rfscanBatch:
     resources:
       limits:
-        memory: 100Mi
-  njsProxy:
-    resources:
-      limits:
-        memory: 100Mi
+        memory: 22Mi
 
 lrc-proxy:
   priorityClassName: thingpark-enterprise-data-path
   replicaCount: 2
   resources:
     limits:
-      memory: 200Mi
+      memory: 55Mi
 
 support:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
     limits:
-      memory: 100Mi
+      memory: 33Mi
 
 wireless-pki:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     limits:
-      memory: 1024Mi
+      memory: 880Mi
 
 locsolver:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
     limits:
-      memory: 100Mi
+      memory: 22Mi
 
 tp-gui:
   priorityClassName: thingpark-enterprise-services
@@ -69,56 +104,56 @@ smp-tpe:
   replicaCount: 2
   resources:
     limits:
-      memory: 100Mi
+      memory: 66Mi
 
 twa:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     limits:
-      memory: 1024Mi
+      memory: 880Mi
 
 twa-admin:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     limits:
-      memory: 128Mi
+      memory: 110Mi
 
 twa-dev:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     limits:
-      memory: 768Mi
+      memory: 660Mi
 
 twa-ran:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     limits:
-      memory: 768Mi
+      memory: 660Mi
 
 twa-task-res:
   priorityClassName: thingpark-enterprise-services
-  replicaCount: 1
+  replicaCount: 2
   resources:
     limits:
-      memory: 300Mi
+      memory: 330Mi
 
 twa-alarm-notif:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
     limits:
-      memory: 50Mi
+      memory: 55Mi
 
 task-notif-ws:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
     limits:
-      memory: 512Mi
+      memory: 330Mi
   livenessProbe:
     enabled: true
     initialDelaySeconds: 60
@@ -145,63 +180,63 @@ tpx-flow:
     replicaCount: 1
     resources:
       limits:
-        memory: 300Mi
+        memory: 330Mi
   hub:
     replicaCount: 2
     resources:
       limits:
-        memory: 250Mi
+        memory: 330Mi
   bridge: 
     replicaCount: 1
     resources:
       limits:
-        memory: 300Mi
+        memory: 330Mi
   api:
     replicaCount: 2
     resources:
       limits:
-        memory: 250Mi
+        memory: 330Mi
 
 tp-dx:
   priorityClassName: thingpark-enterprise-data-path
   replicaCount: 1
   resources:
     limits:
-      memory: 400Mi
+      memory: 330Mi
 
 node-red:
   priorityClassName: thingpark-enterprise-data-path
   replicaCount: 1
   resources:
     limits:
-      memory: 200Mi
+      memory: 110Mi
 
 nssa:
   priorityClassName: thingpark-enterprise-services
   networkSurvey:
-    replicaCount: 2
+    replicaCount: 1
     resources:
       limits:
-        memory: 100Mi  
+        memory: 22Mi  
   spectrumAnalysis:
-    replicaCount: 2
+    replicaCount: 1
     resources:
       limits:
-        memory: 100Mi
+        memory: 22Mi
 
 wlogger:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     limits:
-      memory: 300Mi
+      memory: 165Mi
 
 shellinabox:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
     limits:
-      memory: 100Mi
+      memory: 22Mi
 
 # Configuration for controllers
 ingress-nginx:
@@ -211,32 +246,3 @@ ingress-nginx:
       limits:
         memory: 256Mi
 
-# Configuration for data stack
-kafka-cluster:
-  priorityClassName: thingpark-enterprise-data
-  kafka:
-    resources:
-      limits:
-        memory: 700Mi
-  zookeeper:
-    resources:
-      limits:
-        memory: 384Mi
-     
-mongo-replicaset:
-  priorityClassName: thingpark-enterprise-data
-  resources:
-    limits:
-      memory: 3500Mi
-
-zookeeper:
-  priorityClassName: thingpark-enterprise-data
-  resources:
-    limits:
-      memory: 512Mi
-
-mariadb-galera:
-  priorityClassName: thingpark-enterprise-data
-  resources:
-    limits:
-      memory: 700Mi
