@@ -7,9 +7,9 @@ kafka-cluster:
   zookeeper:
     resources:
       limits:
-        memory: 128Mi
+        memory: 150Mi
       requests:
-        memory: 128Mi
+        memory: 150Mi
 
 mongo-replicaset:
   priorityClassName: thingpark-enterprise-data
@@ -17,8 +17,6 @@ mongo-replicaset:
     resources:
       limits:
         memory: 5440Mi
-      requests:
-        memory: 3145Mi
   arbiter:
     resources:
       limits:
@@ -28,9 +26,9 @@ zookeeper:
   priorityClassName: thingpark-enterprise-data
   resources:
     limits:
-      memory: 128Mi
+      memory: 150Mi
     requests:
-      memory: 128Mi
+      memory: 150Mi
   
 mariadb-galera:
 
@@ -184,7 +182,7 @@ tpx-flow:
     replicaCount: 2
     resources:
       limits:
-        memory: 120Mi
+        memory: 300Mi
   supervisor: 
     replicaCount: 1
     resources:

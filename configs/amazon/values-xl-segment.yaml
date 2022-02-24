@@ -36,9 +36,9 @@ zookeeper:
   priorityClassName: thingpark-enterprise-data
   resources:
     limits:
-      memory: 128Mi
+      memory: 150Mi
     requests:
-      memory: 128Mi
+      memory: 150Mi
   persistence:
     size: 5Gi
     storageClass: "thingpark-gp2-xfs"
@@ -66,9 +66,9 @@ kafka-cluster:
   zookeeper:
     resources:
       limits:
-        memory: 128Mi
+        memory: 150Mi
       requests:
-        memory: 128Mi
+        memory: 150Mi
     persistence:
       local: false
       storageSize: 5Gi
@@ -146,11 +146,11 @@ lrc:
   sftp:
     resources:
       limits:
-        memory: 32Mi
+        memory: 80Mi
   rfscanBatch:
     resources:
       limits:
-        memory: 32Mi
+        memory: 80Mi
   persistence:
     size: 10Gi
     ftpSize: 10Gi
@@ -203,7 +203,7 @@ locsolver:
   replicaCount: 1
   resources:
     limits:
-      memory: 32Mi
+      memory: 80Mi
 smp-tpe:
   nodeSelector: *nodeSelector
   tolerations: *tolerations
@@ -290,7 +290,7 @@ tpx-flow:
     replicaCount: 2
     resources:
       limits:
-        memory: 120Mi
+        memory: 400Mi
   supervisor:
     replicaCount: 1
     resources:
@@ -338,12 +338,12 @@ nssa:
     replicaCount: 1
     resources:
       limits:
-        memory: 32Mi
+        memory: 80Mi
   spectrumAnalysis:
     replicaCount: 1
     resources:
       limits:
-        memory: 32Mi
+        memory: 80Mi
 wlogger:
   nodeSelector: *nodeSelector
   tolerations: *tolerations
@@ -359,7 +359,7 @@ shellinabox:
   replicaCount: 1
   resources:
     limits:
-      memory: 32Mi
+      memory: 80Mi
 # Values configuring Thingpark Enterprise deployment for Amazon Elastic Kubernetes Service
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.

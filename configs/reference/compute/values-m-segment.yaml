@@ -7,9 +7,9 @@ kafka-cluster:
   zookeeper:
     resources:
       limits:
-        memory: 128Mi
+        memory: 150Mi
       requests:
-        memory: 128Mi
+        memory: 150Mi
      
 mongo-replicaset:
   priorityClassName: thingpark-enterprise-data
@@ -26,9 +26,9 @@ zookeeper:
   priorityClassName: thingpark-enterprise-data
   resources:
     limits:
-      memory: 128Mi
+      memory: 150Mi
     requests:
-      memory: 128Mi
+      memory: 150Mi
 
 mariadb-galera:
   priorityClassName: thingpark-enterprise-data
@@ -58,11 +58,11 @@ lrc:
   sftp:
     resources:
       limits:
-        memory: 22Mi
+        memory: 55Mi
   rfscanBatch:
     resources:
       limits:
-        memory: 22Mi
+        memory: 55Mi
 
 lrc-proxy:
   priorityClassName: thingpark-enterprise-data-path
@@ -90,7 +90,7 @@ locsolver:
   replicaCount: 1
   resources:
     limits:
-      memory: 22Mi
+      memory: 55Mi
 
 tp-gui:
   priorityClassName: thingpark-enterprise-services
@@ -175,7 +175,7 @@ tpx-flow:
     replicaCount: 2
     resources:
       limits:
-        memory: 256Mi
+        memory: 275Mi
   supervisor: 
     replicaCount: 1
     resources:
@@ -217,12 +217,12 @@ nssa:
     replicaCount: 1
     resources:
       limits:
-        memory: 22Mi  
+        memory: 55Mi  
   spectrumAnalysis:
     replicaCount: 1
     resources:
       limits:
-        memory: 22Mi
+        memory: 55Mi
 
 wlogger:
   priorityClassName: thingpark-enterprise-services
@@ -236,7 +236,7 @@ shellinabox:
   replicaCount: 1
   resources:
     limits:
-      memory: 22Mi
+      memory: 55Mi
 
 # Configuration for controllers
 ingress-nginx:
