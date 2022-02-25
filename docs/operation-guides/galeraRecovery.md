@@ -135,7 +135,7 @@ Follow next step to recover by re bootsraping the cluster.
     kubectl  delete statefulsets.apps mariadb-galera
     ```
 
-7.  And finally upgrade the tpe release:
+7.  And finally upgrade the tpe-data release and restart sql-proxy router deployment:
 
     ```shell
     helm -n  $NAMESPACE -i tpe-data \
@@ -143,4 +143,6 @@ Follow next step to recover by re bootsraping the cluster.
       -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
       -f $CONFIG_REPO_BASEURL/configs/distributions/values-azure-aks.yaml \
       -f custom-values.yaml
+
+    kubectl scale deployment sql-proxy --replicas=2
     ```
