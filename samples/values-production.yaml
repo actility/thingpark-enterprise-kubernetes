@@ -141,10 +141,11 @@ ingress-nginx:
 #   s3Compat: 
 #     url: http://minio.thingpark-enterprise-tools.svc:9000
 #     accessKey: minio
-#     secretKey: minio123
+#     secretAccessKey: minio123
 #     bucket: "thingpark-enterprise-backup"
 
 # OPTION 2: Configuration to use AMAZON S3 bucket
+# accessKey and secretAccessKey are optional. If not provided, EKS Node Group IAM Role must allow get/put to S3 backup bucket
 # backup:
 #   schedule: "30 2 * * *"
 #   amazon:
@@ -166,6 +167,13 @@ ingress-nginx:
 #     clientId: <>
 #     clientSecret: <>
 
+### ISOLATION CONFIGURATION ###
+# Once your cluster use a networking plugin which supports NetworkPolicy, you can start to filter thingpark workloads ingress. 
+# It allow to isolate workload running in the Thingpark deployment namespace from other. Only flow exposed by ingress controller are allowed
+# Egress policies are currently not supported
+networkPolicy:
+  ingress:
+    enabled: true
 
 ### DATABASE PASSWORD OVERRINDING ###
   # sqlDb:
