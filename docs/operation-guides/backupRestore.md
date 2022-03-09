@@ -13,9 +13,7 @@ Scheduled backup can be enabled after initial deployment by updating helm `thing
     ```shell
     helm upgrade -i tpe -n $NAMESPACE \
       actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
-      -f $CONFIG_REPO_BASEURL/configs/values.yaml \
-      -f $CONFIG_REPO_BASEURL/configs/segments/values-s-segment.yaml \
-      -f $CONFIG_REPO_BASEURL/configs/distributions/values-azure-aks.yaml \
+      -f $CONFIG_REPO_BASEURL/configs/$HOSTING/values-$SEGMENT-segment.yaml \
       -f custom-values.yaml
     ```
 3. Backups retention should be set using cloud storage features:

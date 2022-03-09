@@ -32,12 +32,12 @@ mariadb-galera:
 ## Persistent Volume Claim setting to use EBS volumes for persistence
 lrc:
   persistence:
-    storageClass: "thingpark-premium-lrs-ext4"
-    ftpStorageClass: "thingpark-csi-premium-lrs-xfs"
+    storageClass: "thingpark-csi-premium-lrs-ext4"
+    ftpStorageClass: "thingpark-csi-standard-lrs-xfs"
 
 node-red:
   persistence:
-    storageClass: "thingpark-csi-premium-lrs-xfs"
+    storageClass: "thingpark-csi-standard-lrs-xfs"
 
 
 

@@ -18,7 +18,7 @@ Before selecting hosting resources, the next table allow you to select a **Thing
 **Peak Traffic Rate1** | 3 msg/sec | 15 msg/sec	| 30 msg/sec | 60 msg/sec	| 180 msg/sec
 
 ### 2.2. Compute requirements
-This table detail required CPU/RAM resources on workers dedicated for ThingPark Enterprise OCP workloads.
+This table details required CPU/RAM resources on workers dedicated for ThingPark Enterprise OCP workloads.
 
  _  | Small (S)	| Medium (M) | Large (L) | Extra-Large (XL)	| Double-Extra-Large (XXL)
 ---|---|---|---|---|---
@@ -30,26 +30,28 @@ Recommended Amazon Instances|Under study|Under study|m5.xlarge|m5.2xlarge|m5.8xl
 
 
 ### 2.3. Storage
-This section is provided for information and calculate cost in targeted cloud hosting environment. Storage is dynamically provisionned on cloud platform using provided Storage Class
+This section is provided for information to calculate cost in targeted cloud hosting environment. Storage is dynamically provisionned on cloud platform using provided Storage Class
 
  Cloud  | service |  Small (S)	| Medium (M) | Large (L) | Extra-Large (XL)	| Double-Extra-Large (XXL)
 ---|---|---|---|---|---|---
- **Azure** | mariadb-galera | 3 x 5Gi Premium SSD LRS	|3 x 5Gi (-)	|3 x 10Gi (-)	| 3 x 15Gi (-)| 3 x 30Gi (-) 
- _ | mongodb | 2 x 10Gi Premium SSD LRS	|2 x 15Gi 	|2  x 25Gi (-)	| 2 x 45Gi (-)| 2 x 1000Gi (-)
- _ | kafka | 2 x 10Gi Premium SSD LRS	|2 x 15Gi (-)	|2  x 20Gi (-)	| 2 x 30Gi (-)| 2 x 40Gi (-)
- _ | lrc | 2 x 5Gi Premium SSD LRS	|2 x 5Gi (-)	|2  x 5Gi (-)	| 2 x 10Gi (-)| 2 x 15Gi (-)
- _ | zookeeper | 6 x 5Gi Premium SSD LRS	|6 x 5Gi (-)	|6 x 5Gi (-)	| 6 x 5Gi (-)| 6 x 5Gi(-)
- _ | lrc-ftp | 2 x 10Gi Standard SSD LRS	|2 x 10Gi (-)	|2  x 10Gi (-)	| 2 x 10Gi (-) | 2 x 10Gi (-)
- _ | node-red | 1 x 10Gi Standard SSD LRS	|1 x 10Gi (-)	|1  x 10Gi (-)	| 1 x 10Gi (-) | 1 x 10Gi (-)
- **Amazon** | mariadb-galera | 3 x 5Gi gp2	|3 x 5Gi (-)	|3 x 10Gi (-)	| 3 x 15Gi (-)| 3 x 30Gi (-) 
- _ | mongodb | 2 x 10Gi  gp2	|2 x 15Gi 	|2  x 25Gi (-)	| 2 x 45Gi (-)| 2 x 365Gi (-)
- _ | kafka | 2 x 10Gi  gp2	|2 x 15Gi (-)	|2  x 20Gi (-)	| 2 x 30Gi (-)| 2 x 40Gi (-)
- _ | lrc | 2 x 5Gi  gp2	|2 x 5Gi (-)	|2  x 5Gi (-)	| 2 x 10Gi (-)| 2 x 15Gi (-)
- _ | zookeeper | 6 x 5Gi  gp2	|6 x 5Gi (-)	|6 x 5Gi (-)	| 6 x 5Gi (-)| 6 x 5Gi(-)
- _ | lrc-ftp | 2 x 10Gi  gp2	|2 x 10Gi (-)	|2  x 10Gi (-)	| 2 x 10Gi (-) | 2 x 10Gi (-)
- _ | node-red | 1 x 10Gi  gp2	|1 x 10Gi (-)	|1  x 10Gi (-)	| 1 x 10Gi (-) | 1 x 10Gi (-)
+ **Azure** | mariadb-galera | 3 x 5Gi (1) |3 x 5Gi (1) |3 x 10Gi (1) | 3 x 15Gi (1) | 3 x 30Gi (1)
+ _ | mongodb | 2 x 10Gi (1)	|2 x 15Gi (1)	|2  x 25Gi (1)	| 2 x 45Gi (1) | 2 x 1000Gi (1)
+ _ | kafka | 2 x 10Gi (1)	|2 x 15Gi (1)	|2  x 20Gi (1) | 2 x 30Gi (1) | 2 x 40Gi (1)
+ _ | lrc | 2 x 5Gi (1)	|2 x 5Gi (1)	|2  x 5Gi (1) | 2 x 10Gi (1) | 2 x 15Gi (1)
+ _ | zookeeper | 6 x 5Gi (1)	| 6 x 5Gi (1) |6 x 5Gi (1) | 6 x 5Gi (1) | 6 x 5Gi (1)
+ _ | lrc-ftp | 2 x 10Gi (2)	| 2 x 10Gi (2) |2  x 10Gi (2) | 2 x 10Gi (2) | 2 x 10Gi (2)
+ _ | node-red | 1 x 10Gi (2) | 1 x 10Gi (2)	|1  x 10Gi (2) | 1 x 10Gi (2) | 1 x 10Gi (2)
+ **Amazon** | mariadb-galera | 3 x 5Gi (3) |3 x 5Gi ((3) | 3 x 10Gi (3) | 3 x 15Gi (3)| 3 x 30Gi (3) 
+ _ | mongodb | 2 x 10Gi  (3)	|2 x 15Gi 	| 2  x 25Gi (3) | 2 x 45Gi (3) | 2 x 365Gi (3)
+ _ | kafka | 2 x 10Gi  (3)	| 2 x 15Gi (3) | 2  x 20Gi (3) | 2 x 30Gi (3) | 2 x 40Gi (3)
+ _ | lrc | 2 x 5Gi  (3)	| 2 x 5Gi (3) |2  x 5Gi (3)	| 2 x 10Gi (3) | 2 x 15Gi (3)
+ _ | zookeeper | 6 x 5Gi  (3)	| 6 x 5Gi (3) | 6 x 5Gi (3)	| 6 x 5Gi (3) | 6 x 5Gi (3)
+ _ | lrc-ftp | 2 x 10Gi  (3)	| 2 x 10Gi (3) | 2  x 10Gi (3) | 2 x 10Gi (3) | 2 x 10Gi (3)
+ _ | node-red | 1 x 10Gi  (3)	| 1 x 10Gi (3) | 1  x 10Gi (3) | 1 x 10Gi (3) | 1 x 10Gi (3)
 
-
+- **(1)**: Azure Premium SSD LRS 
+- **(2)**: Azure Standard SSD LRS
+- **(3)**: Amazon gp2
 
 ## 3. Packaging
 Thingpark Enterprise deployment on kubernetes is composed of a **ThingPark Data Stack** and the  **ThingPark Enterprise Stack**.
