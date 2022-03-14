@@ -29,6 +29,7 @@ Depending your hosting, backup requirements are:
 ### 1.3. Kubernetes Cluster
 #### 1.3.1 Control plan
 - A Kubernetes control plan version **1.21+**
+- For `amazon` and `azure` cloud deployments, CSI driver controller must be installed (respectivelly EBS and azuredisk drivers)
 
 #### 1.3.2 Dedicated node identification
 
@@ -40,7 +41,7 @@ Worker nodes for ThingPark Enterprise workload must be dedicated using following
   kubectl label nodes <node2> $NODE_SELECTOR_LABEL
   kubectl label nodes <node3> $NODE_SELECTOR_LABEL
   ```
-- Add a taint
+- Add a taint (Optional for dedicated clusters)
   ```shell
   kubectl taint nodes <node1> $NODE_SELECTOR_LABEL:NoSchedule
   kubectl taint nodes <node2> $NODE_SELECTOR_LABEL:NoSchedule
@@ -48,14 +49,14 @@ Worker nodes for ThingPark Enterprise workload must be dedicated using following
   ```
 ---
 ### 1.4. Configuration preparation
-1. Retrieve configuration bootstrap sample
+1. Retrieve configuration bootstrap sample:
     ```shell 
     export CONFIG_REPO_BASEURL=https://raw.githubusercontent.com/actility/thingpark-enterprise-kubernetes/main
     eval $(curl $CONFIG_REPO_BASEURL/VERSIONS)
     curl $CONFIG_REPO_BASEURL/samples/values-production.yaml -o custom-values.yaml
     ```
 
-2. Prepare Helm configuration 
+2. Prepare Helm configuration:
     ```shell   
     # Configure actility helm repository authentication
     helm repo add --username <InstallationID> --password <InstallationID> actility https://repository.thingpark.com/charts
@@ -64,13 +65,13 @@ Worker nodes for ThingPark Enterprise workload must be dedicated using following
     export NAMESPACE=thingpark-enterprise
     # Set the ThingPark segment choosed at capacity planning step
     # Value in s,m,l,xl,xxl
-    export SEGMENT=m
+    export SEGMENT=l
     # Set the targeted environment
     # Value azure,amazon
     export HOSTING=azure
     ```
   
-3. Prepare your deployment values following guidelines provided in sample values file. Validate configuration consistency using a dry-run
+3. Prepare your deployment values following guidelines provided in the [values file](../../samples/values-production.yaml) sample. Validate configuration consistency using a dry-run:
     ```shell 
     helm template tpe actility/thingpark-enterprise --version $THINGPARK_ENTERPRISE_VERSION \
     -f custom-values.yaml
@@ -80,7 +81,7 @@ Worker nodes for ThingPark Enterprise workload must be dedicated using following
 
 ## STEP 1: Data stack deployment
 
-1. Deploy the chart using your customization
+1. Deploy the chart using your customization:
     ```shell
     helm upgrade -i tpe-data-controllers -n $NAMESPACE --create-namespace  \
       actility/thingpark-data-controllers --version $THINGPARK_DATA_CONTROLLERS_VERSION \
@@ -92,7 +93,7 @@ Worker nodes for ThingPark Enterprise workload must be dedicated using following
       -f custom-values.yaml
     ```
 ## STEP 2: ThingPark Enterprise deployment
-1. Deploy the `thingpark-enterprise-controllers` chart
+1. Deploy the `thingpark-enterprise-controllers` chart:
     ```shell
     helm upgrade -i tpe-controllers -n $NAMESPACE \
       actility/thingpark-enterprise-controllers --version $THINGPARK_ENTERPRISE_CONTROLLERS_VERSION \
@@ -113,7 +114,7 @@ Worker nodes for ThingPark Enterprise workload must be dedicated using following
       -f $CONFIG_REPO_BASEURL/configs/$HOSTING/values-$SEGMENT-segment.yaml \
       -f custom-values.yaml
     ```
-2. Wait for all statefulsets and deployments readiness:
+4. Wait for all statefulsets and deployments readiness:
 
     ```shell
     kubectl get -n $NAMESPACE statefulsets.apps,deployments.apps
@@ -127,4 +128,4 @@ Worker nodes for ThingPark Enterprise workload must be dedicated using following
 ```shell
 kubectl get svc ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
-2. Ensure the custom-values.yaml file is carrefully backuped, for example in a GIT repository. This file is required in case of disastery recovery
+2. Ensure the custom-values.yaml file is carrefully backuped, for example in a GIT repository. This file is required in case of disaster recovery
