@@ -65,7 +65,7 @@ Installation process will provision dynamically following resources:
 ### STEP 1: Configuration preparation
 1. Retrieve configuration bootstrap sample
     ```shell 
-    export CONFIG_REPO_BASEURL=https://raw.githubusercontent.com/actility/thingpark-enterprise-kubernetes/main
+    export CONFIG_REPO_BASEURL=https://raw.githubusercontent.com/actility/thingpark-enterprise-kubernetes/v1.0
     eval $(curl $CONFIG_REPO_BASEURL/VERSIONS)
     curl $CONFIG_REPO_BASEURL/samples/values-production.yaml -o custom-values.yaml
     ```
