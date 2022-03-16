@@ -42,7 +42,7 @@ components layer        │                                     & Data plane    
 
 ```
 
-### 1.2. Ingress/egress network flows 
+### 1.2. Kubernetes cluster ingress/egress network flows 
 
 #### 1.2.1 Base station TO kubernetes cluster (either workers or load balancer)
 
@@ -88,15 +88,23 @@ Following Helm chart repositories must be accessible to administer the deploymen
 - `https://charts.jetstack.io` (jetstack/cert-manager)
 - `https://strimzi.io/charts` (strimzi/strimzi-kafka-operator)
 - `https://percona.github.io` (percona-helm-charts)
-  
-### 1.3. Current limitations
+
+### 1.4. Kubernetes cluster internal flow
+- ThingPark Enterprise workloads can be isolated from other one on cluster activating provided NetworkPolicies.
+- As a reminder, a [networking plugin](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) which supports NetworkPolicy have to be used, otherwise any activation will have no effect.
+
+### 1.5. Current limitations
 
 - See [Limitations](./limitations.md)
 
-
 ## 2. Installation on supported distributions
-ThingPark Enterprise  can be deployed on following kubernetes distributions:
-- [**Azure Kubernetes Service**](./azureKubernetesService.md)
+
+- First of all, start by fulfil Kubernetes requirements:
+  - [**Generic requirements**](./genericRequirements.md)
+
+- Once cluster prepared ThingPark Enterprise  can be deployed on following kubernetes distributions:
+  - [**Azure Kubernetes Service**](./azureKubernetesService.md)
+  - [**Amazon Elastic Kubernetes Service**](./elasticKubernetesService.md)
 
 ## 3. Uninstall
 - [Uninstall](uninstall.md) Thingpark Enterprise
