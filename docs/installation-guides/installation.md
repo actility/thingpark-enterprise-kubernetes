@@ -51,7 +51,7 @@ Worker nodes for ThingPark Enterprise workload must be dedicated using following
 ### 1.4. Configuration preparation
 1. Retrieve configuration bootstrap sample:
     ```shell 
-    export CONFIG_REPO_BASEURL=https://raw.githubusercontent.com/actility/thingpark-enterprise-kubernetes/main
+    export CONFIG_REPO_BASEURL=https://raw.githubusercontent.com/actility/thingpark-enterprise-kubernetes/release-1.1
     eval $(curl $CONFIG_REPO_BASEURL/VERSIONS)
     curl $CONFIG_REPO_BASEURL/samples/values-production.yaml -o custom-values.yaml
     ```
@@ -85,7 +85,7 @@ Worker nodes for ThingPark Enterprise workload must be dedicated using following
     ```shell
     helm upgrade -i tpe-data-controllers -n $NAMESPACE --create-namespace  \
       actility/thingpark-data-controllers --version $THINGPARK_DATA_CONTROLLERS_VERSION \
-      -f $CONFIG_REPO_BASEURL/configs/values.yaml
+      -f custom-values.yaml
 
     helm  upgrade -i tpe-data -n $NAMESPACE \
       actility/thingpark-data --version $THINGPARK_DATA_VERSION \
@@ -126,6 +126,6 @@ Worker nodes for ThingPark Enterprise workload must be dedicated using following
 
 1. **After** Thingpark Enterprise Helm deployment, Load Balancer ip can be retreive using following command:
 ```shell
-kubectl get svc ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+kubectl get svc tpe-controllers-ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
 2. Ensure the custom-values.yaml file is carrefully backuped, for example in a GIT repository. This file is required in case of disaster recovery

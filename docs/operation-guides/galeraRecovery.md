@@ -7,10 +7,10 @@ Follow next step to recover by re bootsraping the cluster.
 1.  Check the galera statefulset pod state, it will return failure conditions:
 
     ```shell
-    kubectl get po -l app.kubernetes.io/name=mariadb-galera -o jsonpath='{.items[].status.containerStatuses[].ready}'
+    kubectl get po -n $NAMESPACE -l app.kubernetes.io/name=mariadb-galera -o jsonpath='{.items[].status.containerStatuses[].ready}'
     ```
     ```shell
-    kubectl get po -l app.kubernetes.io/name=mariadb-galera -o jsonpath='{.items[].status.containerStatuses[].state}'|jq
+    kubectl get po -n $NAMESPACE -l app.kubernetes.io/name=mariadb-galera -o jsonpath='{.items[].status.containerStatuses[].state}'|jq
     {
     "waiting": {
         "message": "back-off 5m0s restarting failed container=mariadb-galera pod=tpe-mariadb-galera-0_thingpark-enterprise(6faab544-25fd-4e77-a6b9-185e058462dd)",
@@ -30,7 +30,7 @@ Follow next step to recover by re bootsraping the cluster.
 3.  Retrieve `grastate.dat` content of each node using each `data-mariadb-galera-0`, `data-mariadb-galera-1` ,`data-mariadb-galera-2` volume claim name , for instance:
 
     ```shell
-    kubectl run --restart=Never -i --rm --tty volpod --overrides='
+    kubectl run --restart=Never -n $NAMESPACE -i --rm --tty volpod --overrides='
     {
         "apiVersion": "v1",
         "kind": "Pod",
@@ -144,5 +144,5 @@ Follow next step to recover by re bootsraping the cluster.
       -f $CONFIG_REPO_BASEURL/configs/distributions/values-azure-aks.yaml \
       -f custom-values.yaml
 
-    kubectl scale deployment sql-proxy --replicas=2
+    kubectl scale $NAMESPACE deployment sql-proxy --replicas=2
     ```
