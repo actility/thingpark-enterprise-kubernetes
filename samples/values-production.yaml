@@ -69,6 +69,28 @@ global:
         username: *installationId
         password: *installationId
 
+  ### FEDERATION CONFIGURATION ###
+  ## 1. First installation procedure must be done before attempting to enable federation. First admininstrator must be created with the email of an existing user in the federated IDP
+  ## 2. To enable authentication federation, a client must be registered with the identity provider that will authenticate users. This identity provider must be compatible with OpenID Connect 1.0.
+  ## The client must have the following properties:
+  ## - Redirection URI: https://<.Values.global.dnsHostname>/auth/federation-callback
+  ## - Post logout redirect URI: https://<.Values.global.dnsHostname>/federation-post-logout
+  ## - Response types: code
+  ## - Token endpoint auth method: client_secret_basic
+  ## - The openid, email and profile scopes must be allowed
+  ## 3. Fill the oauthFederation block with identity provider settings and update helm release to push new configuration
+  oauthFederation: {}
+  # oauthFederation:
+  #   issuer: ""
+  #   clientId: ""
+  #   clientSecret: ""
+
+  ### SNMP CONFIGURATION ###
+  ## Configure device & base station alarms notifications
+  # snmp:
+  #   trap:
+  #     server: ""
+  #     community: "public"
 
   ### INBOUND: TLS CERTIFICATE ###
   ## OPTION 1: Default configuration, A Selfsigned certificate is generated
@@ -84,6 +106,8 @@ global:
   #       -----END PRIVATE KEY-----
   ## OPTION 3: Letsencrypt issued certificate. Uncomment acmeSolvers only if you want to use other challenge like dns
   # ingress:
+  #  Uncomment to override default behavior that configure global.dnsHostname as hosts for all ingress
+  #   hosts: []
   #   tls:
   #     issuer: "letsencrypt"
   #     acmeEmail: foo@example.com
@@ -181,6 +205,9 @@ networkPolicy:
   #     admin:
   #       username: root
   #       password: ""
+  #     maintenance:
+  #       username: maintenance
+  #       password: "maintenance"
   #     twa:
   #       username: "twa"
   #       password: ""
