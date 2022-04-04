@@ -7,9 +7,9 @@ kafka-cluster:
   zookeeper:
     resources:
       limits:
-        memory: 150Mi
+        memory: 200Mi
       requests:
-        memory: 150Mi
+        memory: 200Mi
      
 mongo-replicaset:
   priorityClassName: thingpark-enterprise-data
@@ -396,5 +396,5 @@ ingress-nginx:
     priorityClassName: thingpark-enterprise-data-path
     resources:
       limits:
-        memory: 256Mi
+        memory: 384Mi
 
