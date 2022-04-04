@@ -1,6 +1,7 @@
 # Thingpark Enterprise deployment on kubernetes
 
-Please find all installation and administration guides at [ThingPark Documentation Portal](https://docs.thingpark.com/thingpark-enterprise/7.1/Content/Home.htm)
+- Installation and administration guides are published on [ThingPark Documentation Portal](https://docs.thingpark.com/thingpark-enterprise/7.1/Content/Home.htm)
+- Please find available [releases here](https://github.com/actility/thingpark-enterprise-kubernetes/releases)
 
 ## Project structure
 - `configs/<distribution>`: provide values to configure deployment on supported kubernetes distributions
