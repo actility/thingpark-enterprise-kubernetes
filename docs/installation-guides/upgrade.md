@@ -24,7 +24,7 @@ It require two steps:
     ```shell 
     # Set the deployment namespace as an environment variable
     export NAMESPACE=thingpark-enterprise
-    export CONFIG_REPO_BASEURL=https://raw.githubusercontent.com/actility/thingpark-enterprise-kubernetes/release-1.1
+    export CONFIG_REPO_BASEURL=https://raw.githubusercontent.com/actility/thingpark-enterprise-kubernetes/release-7.1
     eval $(curl $CONFIG_REPO_BASEURL/VERSIONS)
     helm repo update
     ```
