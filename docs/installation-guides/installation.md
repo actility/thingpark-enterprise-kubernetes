@@ -51,7 +51,7 @@ Worker nodes for ThingPark Enterprise workload must be dedicated using following
 ### 1.4. Configuration preparation
 1. Retrieve configuration bootstrap sample:
     ```shell 
-    export CONFIG_REPO_BASEURL=https://raw.githubusercontent.com/actility/thingpark-enterprise-kubernetes/release-1.1
+    export CONFIG_REPO_BASEURL=https://raw.githubusercontent.com/actility/thingpark-enterprise-kubernetes/release-7.1
     eval $(curl $CONFIG_REPO_BASEURL/VERSIONS)
     curl $CONFIG_REPO_BASEURL/samples/values-production.yaml -o custom-values.yaml
     ```
