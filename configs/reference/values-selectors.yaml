@@ -99,6 +99,9 @@ support:
 wireless-pki:
   nodeSelector: *nodeSelector
   tolerations: *tolerations
+cups-server:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
 locsolver:
   nodeSelector: *nodeSelector
   tolerations: *tolerations
