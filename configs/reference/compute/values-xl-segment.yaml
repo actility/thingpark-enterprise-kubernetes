@@ -34,6 +34,8 @@ mariadb-galera:
   priorityClassName: thingpark-enterprise-data
   resources:
     limits:
+      memory: 1520Mi
+    requests:
       memory: 760Mi
   mariadbConfiguration: |-
     [client]
@@ -60,7 +62,7 @@ mariadb-galera:
     character_set_server=utf8
 
     ## MyISAM
-    key_buffer_size=10M
+    key_buffer_size=1M
     myisam_recover_options=FORCE,BACKUP
 
     ## Safety
@@ -87,7 +89,7 @@ mariadb-galera:
     query_cache_type=0
     query_cache_size=0
     ### max_connections=500
-    max_connections=1000
+    max_connections=120
     ### thread_cache_size=50
     thread_cache_size=200
     ### Added
@@ -106,14 +108,12 @@ mariadb-galera:
     innodb_flush_method=O_DIRECT
     innodb_log_files_in_group=2
     innodb_log_file_size=128M
-    ##innodb_flush_log_at_trx_commit=1
-    innodb_flush_log_at_trx_commit=0
     innodb_file_per_table=1
     # 80% Memory is default reco.
     # Need to re-evaluate when DB size grows
     innodb_buffer_pool_instances=1
-    innodb_buffer_pool_chunk_size=532M
-    innodb_buffer_pool_size=532M
+    innodb_buffer_pool_chunk_size=128M
+    innodb_buffer_pool_size=128M
     innodb_log_buffer_size=64M
     innodb_file_format=Barracuda
 
@@ -122,12 +122,6 @@ mariadb-galera:
     slow_query_log_file=/opt/bitnami/mariadb/logs/mysqld.log
     log_queries_not_using_indexes=1
     slow_query_log=1
-
-    ## SSL
-    ## Use extraVolumes and extraVolumeMounts to mount /certs filesystem
-    # ssl_ca=/certs/ca.pem
-    # ssl_cert=/certs/server-cert.pem
-    # ssl_key=/certs/server-key.pem
 
     optimizer_search_depth                   = 0
     optimizer_switch                         = 'index_merge=on'
@@ -170,38 +164,17 @@ mariadb-galera:
     wsrep_cluster_name=galera
     wsrep_sst_auth="root:"
     wsrep_provider_options = "gcache.size=2G;gcs.fc_limit=60;gcs.fc_factor=0.8; gmcast.segment=0"
-    # Enabled for performance per https://mariadb.com/kb/en/innodb-system-variables/#innodb_flush_log_at_trx_commit
     innodb_flush_log_at_trx_commit=2
     # MYISAM REPLICATION SUPPORT #
     wsrep_replicate_myisam=ON
    
     ### Maximum number of rows in write set
-    wsrep_max_ws_rows                        = 131072
+    wsrep_max_ws_rows                        = 0
     ### Maximum size of write set
     wsrep_max_ws_size                        = 1073741824
 
     [mariadb]
     plugin_load_add=auth_pam
-
-    ## Data-at-Rest Encryption
-    ## Use extraVolumes and extraVolumeMounts to mount /encryption filesystem
-    # plugin_load_add=file_key_management
-    # file_key_management_filename=/encryption/keyfile.enc
-    # file_key_management_filekey=FILE:/encryption/keyfile.key
-    # file_key_management_encryption_algorithm=AES_CTR
-    # encrypt_binlog=ON
-    # encrypt_tmp_files=ON
-
-    ## InnoDB/XtraDB Encryption
-    # innodb_encrypt_tables=ON
-    # innodb_encrypt_temporary_tables=ON
-    # innodb_encrypt_log=ON
-    # innodb_encryption_threads=4
-    # innodb_encryption_rotate_key_age=1
-
-    ## Aria Encryption
-    # aria_encrypt_tables=ON
-    # encrypt_tmp_disk_tables=ON
 
 lrc:
   priorityClassName: thingpark-enterprise-data-path
