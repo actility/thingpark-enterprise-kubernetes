@@ -205,9 +205,9 @@ ingress-nginx:
 # Once your cluster use a networking plugin which supports NetworkPolicy, you can start to filter thingpark workloads ingress. 
 # It allow to isolate workload running in the Thingpark deployment namespace from other. Only flow exposed by ingress controller are allowed
 # Egress policies are currently not supported
-networkPolicy:
-  ingress:
-    enabled: true
+# networkPolicy:
+#   ingress:
+#     enabled: true
 
 ### DATABASE PASSWORD OVERRINDING ###
   # sqlDb:
