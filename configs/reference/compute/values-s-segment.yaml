@@ -10,17 +10,19 @@ kafka-cluster:
         memory: 200Mi
       requests:
         memory: 200Mi
-     
+
 mongo-replicaset:
-  priorityClassName: thingpark-enterprise-data
   replicaSet:
     resources:
       limits:
         memory: 850Mi
+    priorityClassName: thingpark-enterprise-data
+
   arbiter:
     resources:
       limits:
         memory: 200Mi
+    priorityClassName: thingpark-enterprise-data
 
 zookeeper:
   priorityClassName: thingpark-enterprise-data
@@ -167,7 +169,7 @@ mariadb-galera:
     innodb_flush_log_at_trx_commit=2
     # MYISAM REPLICATION SUPPORT #
     wsrep_replicate_myisam=ON
-   
+
     ### Maximum number of rows in write set
     wsrep_max_ws_rows                        = 0
     ### Maximum size of write set
@@ -301,7 +303,7 @@ tpx-flow:
     resources:
       limits:
         memory: 250Mi
-  supervisor: 
+  supervisor:
     replicaCount: 1
     resources:
       limits:
@@ -311,7 +313,7 @@ tpx-flow:
     resources:
       limits:
         memory: 300Mi
-  bridge: 
+  bridge:
     replicaCount: 1
     resources:
       limits:
@@ -342,7 +344,7 @@ nssa:
     replicaCount: 1
     resources:
       limits:
-        memory: 50Mi  
+        memory: 50Mi
   spectrumAnalysis:
     replicaCount: 1
     resources:
@@ -370,4 +372,3 @@ ingress-nginx:
     resources:
       limits:
         memory: 384Mi
-

@@ -220,13 +220,15 @@ mongo-replicaset:
     resources:
       limits:
         memory: 69700Mi
+    priorityClassName: thingpark-enterprise-data
+
   arbiter:
     nodeSelector: *nodeSelector
     tolerations: *tolerations
     resources:
       limits:
         memory: 200Mi
-  priorityClassName: thingpark-enterprise-data
+    priorityClassName: thingpark-enterprise-data
   persistence:
     local: false
     size: 999Gi
