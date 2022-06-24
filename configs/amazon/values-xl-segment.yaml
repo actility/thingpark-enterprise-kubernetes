@@ -221,7 +221,6 @@ mongo-replicaset:
       limits:
         memory: 14620Mi
     priorityClassName: thingpark-enterprise-data
-
   arbiter:
     nodeSelector: *nodeSelector
     tolerations: *tolerations
@@ -504,4 +503,6 @@ shellinabox:
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 global:
+  iotFlow:
+    maxConnections: 20
   storageType: "aws-ebs-gp2"

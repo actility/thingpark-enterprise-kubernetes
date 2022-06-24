@@ -91,7 +91,13 @@ global:
   #   trap:
   #     server: ""
   #     community: "public"
-  
+
+  ### MAXIMUM IOT FLOW CONNECTION ###
+  ## Set the maximum number of IoT flow connections allowed simultaneously. 
+  ## As each connection consumes hardware resources (CPU, RAM), this value should be set carefully
+  # iotFlow:
+  #   maxConnections: 5
+
   ### INBOUND: TLS CERTIFICATE ###
   ## OPTION 1: Default configuration, A Selfsigned certificate is generated
   # ingress:
