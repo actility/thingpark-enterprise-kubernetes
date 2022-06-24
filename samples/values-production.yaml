@@ -98,6 +98,21 @@ global:
   # iotFlow:
   #   maxConnections: 5
 
+  ### LOGO CUSTOMIZATION ###
+  ## Operator logo customization
+  ## Uncomment and update following sample with your base64 encoded logo to replace the default one
+  # logo: |-
+  #   iVBORw0KGgoAAAANSUhEUgAAASwAAABkAQMAAAAGz5+DAAAABlBMVEUAAAD///+l2Z/dAAABxElE
+  #   QVRIx+3WUWrDMAwAUIUOvI+BbzCzk+QsPUkSPJZrOctHj7GGXSCfGQRrkmy36doy/42BC6nl5tFU
+  #   spUUMOc1Q2GFFVbYfTYW9udM4bg0iJbndGg6Bjk74dxIzGyGZnSaB+xbg0s14Qo1e2ickZiZg3ps
+  #   FQ0Ge2BOX0Ix4hMYmRthLTHYEdP4BgqPsKdDEXuEZ5krYZWv3+sOD17ha0N8fUGHwvxTvZOYGX3i
+  #   mgE/sMeW8rBYUeacT4UPNHJMzFNmDo9Slo7S6um9l1R3BAeJia2Gc56FWaqBopmmkS/T0cgxszqx
+  #   T2F6w+wlG4VNdIHEQp0Dm5ktl8wbGs2GmR+srRLzACBsjDGzJrAFrtnhmh3zmMtk5xS8kX0UmAn7
+  #   LTH7C4uZ9humN0xfMn0u7y22ntiwWYUTwzuMl15tmIrMJNbF39fdYnzxkEJgvC3thtnYgCoVRMor
+  #   m3zArxPjOPYCs45OM+OW4U2fGMeps2Sx9sK4AXl9E+M49aksfagbt/NCDZkYx6nreetVgaGe0Es7
+  #   B+ZjO8f0Y+llF9M+OL/cnefCmPf4yGQ2j6kcdlizGN/AspjJYXxzzUlhV/45FFbYv2TfBY6xkn7J
+  #   B10AAAAASUVORK5CYII=
+
   ### INBOUND: TLS CERTIFICATE ###
   ## OPTION 1: Default configuration, A Selfsigned certificate is generated
   # ingress:
