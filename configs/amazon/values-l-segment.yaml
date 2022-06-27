@@ -281,6 +281,10 @@ lrc:
     resources:
       limits:
         memory: 700Mi
+  lnsBridge:
+    resources:
+      limits:
+        memory: 60Mi
   lrcSync:
     resources:
       limits:
@@ -338,6 +342,14 @@ wireless-pki:
   resources:
     limits:
       memory: 960Mi
+cups-server:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+  priorityClassName: thingpark-enterprise-services
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 60Mi
 locsolver:
   nodeSelector: *nodeSelector
   tolerations: *tolerations
