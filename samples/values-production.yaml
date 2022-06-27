@@ -98,6 +98,14 @@ global:
   # iotFlow:
   #   maxConnections: 5
 
+  ### THINGPARK WIRELESS SETTINGS ###
+  # wireless:
+  #  ## LoRaWAN traffic lifespan (days)
+  #  ## Set the lifespan of LoRaWAN uplink and downlink frames. 
+  #  ## The default value of 15 days is enough for a normal usage of ThingPark Enterprise. 
+  #  ## Extending the default value consumes hardware resources (RAM, Disk space), please contact your support before any change.
+  #   deviceHistoryExpiration: 15
+  
   ### LOGO CUSTOMIZATION ###
   ## Operator logo customization
   ## Uncomment and update following sample with your base64 encoded logo to replace the default one
