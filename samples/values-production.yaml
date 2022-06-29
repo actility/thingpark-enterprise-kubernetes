@@ -25,6 +25,12 @@ global:
     #   port: "465"
     #   noReplyEmail: "noreply@example.com"
     #   smtpSecurity: ssl
+    ## Maximum time in minutes before an action permit sent by a user (e.g. forgot password e-mail) is expired. 
+    ## This value is recommended to be short because it is expected that the user would react to self-created action quickly.
+    #   actionTokenGeneratedByUserLifespan: 15
+    ## Maximum time in minutes before an action permit sent to a user by admin (e.g. account creation) is expired. 
+    ## This value is recommended to be long to allow admins send e-mails for users that are currently offline
+    #   actionTokenGeneratedByAdminLifespan: 60
   ### BASESTATION SECURITY ###
   # MANDATORY: TLS (X.509) for base station to TPE connection. Choose in IPSEC_X509, DISABLE or MIXED
   # Changing the security level to MIXED is authorized anytime. Changing the security level in any other cases might cause existing base stations to stop working.
