@@ -189,6 +189,11 @@ lrc:
     resources:
       limits:
         memory: 1600Mi
+    lrcIni:
+      kafkalateul:
+        enabled: 1
+        limiter: 20
+        minDelay: 840
   lnsBridge:
     resources:
       limits:

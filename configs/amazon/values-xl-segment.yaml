@@ -280,6 +280,11 @@ lrc:
     resources:
       limits:
         memory: 1600Mi
+    lrcIni:
+      kafkalateul:
+        enabled: 1
+        limiter: 20
+        minDelay: 840
   lnsBridge:
     resources:
       limits:
@@ -499,6 +504,9 @@ shellinabox:
   resources:
     limits:
       memory: 80Mi
+pum:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
 # Values configuring Thingpark Enterprise deployment for Amazon Elastic Kubernetes Service
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
