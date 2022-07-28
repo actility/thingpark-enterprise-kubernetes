@@ -221,7 +221,6 @@ mongo-replicaset:
       limits:
         memory: 5440Mi
     priorityClassName: thingpark-enterprise-data
-
   arbiter:
     nodeSelector: *nodeSelector
     tolerations: *tolerations
