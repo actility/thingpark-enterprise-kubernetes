@@ -242,7 +242,7 @@ cert-manager:
   cainjector:
     nodeSelector: *nodeSelector
     tolerations: *tolerations
-# Configuration for controllers
+# Ingress nginx service custom annotation for Azure Load Balancer configuration
 ingress-nginx:
   controller:
     nodeSelector: *nodeSelector
@@ -254,6 +254,9 @@ ingress-nginx:
     resources:
       limits:
         memory: 384Mi
+    service:
+      annotations:
+        service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: "/healthz"
 ## thingpark-enterprise
 acmeSolvers:
   - http01:
