@@ -385,7 +385,7 @@ twa-admin:
   replicaCount: 2
   resources:
     limits:
-      memory: 160Mi
+      memory: 240Mi
 twa-dev:
   nodeSelector: *nodeSelector
   tolerations: *tolerations
