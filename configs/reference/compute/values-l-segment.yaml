@@ -286,7 +286,7 @@ twa-admin:
   replicaCount: 2
   resources:
     limits:
-      memory: 120Mi
+      memory: 180Mi
 
 twa-dev:
   priorityClassName: thingpark-enterprise-services
