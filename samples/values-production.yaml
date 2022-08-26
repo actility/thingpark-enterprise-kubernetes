@@ -25,10 +25,6 @@ global:
     #   port: "465"
     #   noReplyEmail: "noreply@example.com"
     #   smtpSecurity: ssl
-  ### BASESTATION SECURITY ###
-  # MANDATORY: TLS (X.509) for base station to TPE connection. Choose in IPSEC_X509, DISABLE or MIXED
-  # Changing the security level to MIXED is authorized anytime. Changing the security level in any other cases might cause existing base stations to stop working.
-  defaultBsSecurity: "IPSEC_X509" 
   ### AS SECURITY LEVEL ###
   # When set to 'strict' (recommanded), auto-signed certificates are rejected
   asSecurity: strict
@@ -147,12 +143,6 @@ ingress-nginx:
     3101: <namespace>/lrc-proxy:3101
     # LRC sftp tls inbound
     3002: <namespace>/lrc-proxy:3002
-    ## Additional Clear inbounds for base stations, uncomment to use "DISABLE" or "MIXED" as defaultBsSecurity
-    # LRC clear inbounds
-    # 2404: <namespace>/lrc-0:2404
-    # 2504: <namespace>/lrc-1:2404
-    # LRC sftp inbound
-    # 3102: <namespace>/lrc-cluster:22
 # OPTIONAL: DNS dynamic provisioning
 ## OPTION1: AZURE controller configuration to attach DNS to loadbalancer 
 ## dnsHostname should be composed of Azure DNS alias followed by Azure region domain name (i.e. thingpark-enterprise.westeurope.cloudapp.azure.com)
