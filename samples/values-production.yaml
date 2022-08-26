@@ -31,10 +31,6 @@ global:
     ## Maximum time in minutes before an action permit sent to a user by admin (e.g. account creation) is expired. 
     ## This value is recommended to be long to allow admins send e-mails for users that are currently offline
     #   actionTokenGeneratedByAdminLifespan: 60
-  ### BASESTATION SECURITY ###
-  # MANDATORY: TLS (X.509) for base station to TPE connection. Choose in IPSEC_X509, DISABLE or MIXED
-  # Changing the security level to MIXED is authorized anytime. Changing the security level in any other cases might cause existing base stations to stop working.
-  defaultBsSecurity: "IPSEC_X509" 
   ### AS SECURITY LEVEL ###
   # When set to 'strict' (recommanded), auto-signed certificates are rejected
   asSecurity: strict
@@ -229,6 +225,7 @@ ingress-nginx:
     3101: <namespace>/lrc-proxy:3101
     # LRC sftp tls inbound
     3002: <namespace>/lrc-proxy:3002
+<<<<<<< HEAD
     ## Additional Clear inbounds for base stations, uncomment to use "DISABLE" or "MIXED" as defaultBsSecurity
     # LRC clear inbounds
     # 2404: <namespace>/lrc-0:2404
@@ -238,6 +235,8 @@ ingress-nginx:
     # Uncomment to expose Basics Station LNS endpoint
     # 4443: <namespace>/lrc-proxy-lns:8443
 
+=======
+>>>>>>> 67b971f (RDTP-19555: Remove the unencrypted BS flow from values sample)
 # OPTIONAL: DNS dynamic provisioning
 ## OPTION1: AZURE controller configuration to attach DNS to loadbalancer 
 ## dnsHostname should be composed of Azure DNS alias followed by Azure region domain name (i.e. thingpark-enterprise.westeurope.cloudapp.azure.com)
