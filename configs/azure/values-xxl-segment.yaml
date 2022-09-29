@@ -112,8 +112,8 @@ mariadb-galera:
     ## Logging
     log_error=/opt/bitnami/mariadb/logs/mysqld.log
     slow_query_log_file=/opt/bitnami/mariadb/logs/mysqld.log
-    log_queries_not_using_indexes=1
-    slow_query_log=1
+    log_queries_not_using_indexes=0
+    slow_query_log=0
 
     optimizer_search_depth                   = 0
     optimizer_switch                         = 'index_merge=on'
@@ -371,8 +371,6 @@ cups-server:
   priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
-    requests:
-      memory: 150Mi
     limits:
       memory: 200Mi
 locsolver:
@@ -414,7 +412,7 @@ twa-admin:
     requests:
       memory: 300Mi
     limits:
-      memory: 600Mi
+      memory: 400Mi
 twa-dev:
   nodeSelector: *nodeSelector
   tolerations: *tolerations
