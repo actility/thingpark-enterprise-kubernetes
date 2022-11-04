@@ -225,18 +225,9 @@ ingress-nginx:
     3101: <namespace>/lrc-proxy:3101
     # LRC sftp tls inbound
     3002: <namespace>/lrc-proxy:3002
-<<<<<<< HEAD
-    ## Additional Clear inbounds for base stations, uncomment to use "DISABLE" or "MIXED" as defaultBsSecurity
-    # LRC clear inbounds
-    # 2404: <namespace>/lrc-0:2404
-    # 2504: <namespace>/lrc-1:2404
-    # LRC sftp inbound
-    # 3102: <namespace>/lrc-cluster:22
     # Uncomment to expose Basics Station LNS endpoint
     # 4443: <namespace>/lrc-proxy-lns:8443
 
-=======
->>>>>>> 67b971f (RDTP-19555: Remove the unencrypted BS flow from values sample)
 # OPTIONAL: DNS dynamic provisioning
 ## OPTION1: AZURE controller configuration to attach DNS to loadbalancer 
 ## dnsHostname should be composed of Azure DNS alias followed by Azure region domain name (i.e. thingpark-enterprise.westeurope.cloudapp.azure.com)
