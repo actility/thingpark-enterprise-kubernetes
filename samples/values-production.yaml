@@ -194,6 +194,40 @@ global:
   #       -----BEGIN PRIVATE KEY-----
   #       -----END PRIVATE KEY-----
 
+### BACKUP CONFIGURATION ###
+## OPTIONAL: A storage volume is required for manual or automated
+## OPTION 1: Configuration to use a minio local deployment ( https://docs.min.io/)
+#   backup:
+#     schedule: "30 2 * * *"
+#     s3Compat: 
+#       url: http://minio.thingpark-enterprise-tools.svc:9000
+#       accessKey: minio
+#       secretAccessKey: minio123
+#       bucket: "thingpark-enterprise-backup"
+
+## OPTION 2: Configuration to use AMAZON S3 bucket
+## accessKey and secretAccessKey are optional. If not provided, EKS Node Group IAM Role must allow get/put to S3 backup bucket
+#   backup:
+#     schedule: "30 2 * * *"
+#     amazon:
+#       accessKey: 
+#       secretAccessKey: 
+#       region: us-east-2
+#       bucket: "thingpark-enterprise-backup"
+
+## OPTION 3: Configuration to use Azure blob storage
+#   backup:
+#     schedule: "30 2 * * *"
+#     azure:
+#       resourceGroup: <resource group>
+#       storageAccount: <storage account>
+#       blobContainer: thingpark-enterprise-backup
+#       cloudName: AzurePublicCloud  # Available values: AzurePublicCloud AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
+#       subscriptionId: <>
+#       tenantId: <>
+#       clientId: <>
+#       clientSecret: <>
+
 # For the OPTION 1 Selfsigned certificate, next block should be uncommented
 # Require a public access to ingress and a resolved FQDN 
 # tp-gui:
@@ -242,39 +276,6 @@ ingress-nginx:
 #       annotations:
 #         external-dns.alpha.kubernetes.io/hostname: *dnsHostname
 
-### BACKUP CONFIGURATION ###
-# MANDATORY: A storage volume is required for upgrade rollback
-# OPTION 1: Configuration to use a minio local deployment ( https://docs.min.io/)
-# backup:
-#   schedule: "30 2 * * *"
-#   s3Compat: 
-#     url: http://minio.thingpark-enterprise-tools.svc:9000
-#     accessKey: minio
-#     secretAccessKey: minio123
-#     bucket: "thingpark-enterprise-backup"
-
-# OPTION 2: Configuration to use AMAZON S3 bucket
-# accessKey and secretAccessKey are optional. If not provided, EKS Node Group IAM Role must allow get/put to S3 backup bucket
-# backup:
-#   schedule: "30 2 * * *"
-#   amazon:
-#     accessKey: 
-#     secretAccessKey: 
-#     region: us-east-2
-#     bucket: "thingpark-enterprise-backup"
-
-# OPTION 3: Configuration to use Azure blob storage
-# backup:
-#   schedule: "30 2 * * *"
-#   azure:
-#     resourceGroup: <resource group>
-#     storageAccount: <storage account>
-#     blobContainer: thingpark-enterprise-backup
-#     cloudName: AzurePublicCloud  # Available values: AzurePublicCloud AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
-#     subscriptionId: <>
-#     tenantId: <>
-#     clientId: <>
-#     clientSecret: <>
 
 ### ISOLATION CONFIGURATION ###
 # Once your cluster use a networking plugin which supports NetworkPolicy, you can start to filter thingpark workloads ingress. 
