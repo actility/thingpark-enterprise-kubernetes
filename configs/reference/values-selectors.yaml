@@ -147,3 +147,6 @@ wlogger:
 shellinabox:
   nodeSelector: *nodeSelector
   tolerations: *tolerations
+pum:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations

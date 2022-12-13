@@ -25,10 +25,12 @@ global:
     #   port: "465"
     #   noReplyEmail: "noreply@example.com"
     #   smtpSecurity: ssl
-  ### BASESTATION SECURITY ###
-  # MANDATORY: TLS (X.509) for base station to TPE connection. Choose in IPSEC_X509, DISABLE or MIXED
-  # Changing the security level to MIXED is authorized anytime. Changing the security level in any other cases might cause existing base stations to stop working.
-  defaultBsSecurity: "IPSEC_X509" 
+    ## Maximum time in minutes before an action permit sent by a user (e.g. forgot password e-mail) is expired. 
+    ## This value is recommended to be short because it is expected that the user would react to self-created action quickly.
+    #   actionTokenGeneratedByUserLifespan: 15
+    ## Maximum time in minutes before an action permit sent to a user by admin (e.g. account creation) is expired. 
+    ## This value is recommended to be long to allow admins send e-mails for users that are currently offline
+    #   actionTokenGeneratedByAdminLifespan: 60
   ### AS SECURITY LEVEL ###
   # When set to 'strict' (recommanded), auto-signed certificates are rejected
   asSecurity: strict
@@ -91,7 +93,36 @@ global:
   #   trap:
   #     server: ""
   #     community: "public"
+
+  ### MAXIMUM IOT FLOW CONNECTION ###
+  ## Set the maximum number of IoT flow connections allowed simultaneously. 
+  ## As each connection consumes hardware resources (CPU, RAM), this value should be set carefully
+  # iotFlow:
+  #   maxConnections: 5
+
+  ### THINGPARK WIRELESS SETTINGS ###
+  # wireless:
+  #  ## LoRaWAN traffic lifespan (days)
+  #  ## Set the lifespan of LoRaWAN uplink and downlink frames. 
+  #  ## The default value of 15 days is enough for a normal usage of ThingPark Enterprise. 
+  #  ## Extending the default value consumes hardware resources (RAM, Disk space), please contact your support before any change.
+  #   deviceHistoryExpiration: 15
   
+  ### LOGO CUSTOMIZATION ###
+  ## Operator logo customization
+  ## Uncomment and update following sample with your base64 encoded logo to replace the default one
+  # logo: |-
+  #   iVBORw0KGgoAAAANSUhEUgAAASwAAABkAQMAAAAGz5+DAAAABlBMVEUAAAD///+l2Z/dAAABxElE
+  #   QVRIx+3WUWrDMAwAUIUOvI+BbzCzk+QsPUkSPJZrOctHj7GGXSCfGQRrkmy36doy/42BC6nl5tFU
+  #   spUUMOc1Q2GFFVbYfTYW9udM4bg0iJbndGg6Bjk74dxIzGyGZnSaB+xbg0s14Qo1e2ickZiZg3ps
+  #   FQ0Ge2BOX0Ix4hMYmRthLTHYEdP4BgqPsKdDEXuEZ5krYZWv3+sOD17ha0N8fUGHwvxTvZOYGX3i
+  #   mgE/sMeW8rBYUeacT4UPNHJMzFNmDo9Slo7S6um9l1R3BAeJia2Gc56FWaqBopmmkS/T0cgxszqx
+  #   T2F6w+wlG4VNdIHEQp0Dm5ktl8wbGs2GmR+srRLzACBsjDGzJrAFrtnhmh3zmMtk5xS8kX0UmAn7
+  #   LTH7C4uZ9humN0xfMn0u7y22ntiwWYUTwzuMl15tmIrMJNbF39fdYnzxkEJgvC3thtnYgCoVRMor
+  #   m3zArxPjOPYCs45OM+OW4U2fGMeps2Sx9sK4AXl9E+M49aksfagbt/NCDZkYx6nreetVgaGe0Es7
+  #   B+ZjO8f0Y+llF9M+OL/cnefCmPf4yGQ2j6kcdlizGN/AspjJYXxzzUlhV/45FFbYv2TfBY6xkn7J
+  #   B10AAAAASUVORK5CYII=
+
   ### INBOUND: TLS CERTIFICATE ###
   ## OPTION 1: Default configuration, A Selfsigned certificate is generated
   # ingress:
@@ -163,6 +194,40 @@ global:
   #       -----BEGIN PRIVATE KEY-----
   #       -----END PRIVATE KEY-----
 
+### BACKUP CONFIGURATION ###
+## OPTIONAL: A storage volume is required for manual or automated
+## OPTION 1: Configuration to use a minio local deployment ( https://docs.min.io/)
+#   backup:
+#     schedule: "30 2 * * *"
+#     s3Compat: 
+#       url: http://minio.thingpark-enterprise-tools.svc:9000
+#       accessKey: minio
+#       secretAccessKey: minio123
+#       bucket: "thingpark-enterprise-backup"
+
+## OPTION 2: Configuration to use AMAZON S3 bucket
+## accessKey and secretAccessKey are optional. If not provided, EKS Node Group IAM Role must allow get/put to S3 backup bucket
+#   backup:
+#     schedule: "30 2 * * *"
+#     amazon:
+#       accessKey: 
+#       secretAccessKey: 
+#       region: us-east-2
+#       bucket: "thingpark-enterprise-backup"
+
+## OPTION 3: Configuration to use Azure blob storage
+#   backup:
+#     schedule: "30 2 * * *"
+#     azure:
+#       resourceGroup: <resource group>
+#       storageAccount: <storage account>
+#       blobContainer: thingpark-enterprise-backup
+#       cloudName: AzurePublicCloud  # Available values: AzurePublicCloud AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
+#       subscriptionId: <>
+#       tenantId: <>
+#       clientId: <>
+#       clientSecret: <>
+
 # For the OPTION 1 Selfsigned certificate, next block should be uncommented
 # Require a public access to ingress and a resolved FQDN 
 # tp-gui:
@@ -194,12 +259,6 @@ ingress-nginx:
     3101: <namespace>/lrc-proxy:3101
     # LRC sftp tls inbound
     3002: <namespace>/lrc-proxy:3002
-    ## Additional Clear inbounds for base stations, uncomment to use "DISABLE" or "MIXED" as defaultBsSecurity
-    # LRC clear inbounds
-    # 2404: <namespace>/lrc-0:2404
-    # 2504: <namespace>/lrc-1:2404
-    # LRC sftp inbound
-    # 3102: <namespace>/lrc-cluster:22
     # Uncomment to expose Basics Station LNS endpoint
     # 4443: <namespace>/lrc-proxy-lns:8443
 
@@ -217,39 +276,6 @@ ingress-nginx:
 #       annotations:
 #         external-dns.alpha.kubernetes.io/hostname: *dnsHostname
 
-### BACKUP CONFIGURATION ###
-# MANDATORY: A storage volume is required for upgrade rollback
-# OPTION 1: Configuration to use a minio local deployment ( https://docs.min.io/)
-# backup:
-#   schedule: "30 2 * * *"
-#   s3Compat: 
-#     url: http://minio.thingpark-enterprise-tools.svc:9000
-#     accessKey: minio
-#     secretAccessKey: minio123
-#     bucket: "thingpark-enterprise-backup"
-
-# OPTION 2: Configuration to use AMAZON S3 bucket
-# accessKey and secretAccessKey are optional. If not provided, EKS Node Group IAM Role must allow get/put to S3 backup bucket
-# backup:
-#   schedule: "30 2 * * *"
-#   amazon:
-#     accessKey: 
-#     secretAccessKey: 
-#     region: us-east-2
-#     bucket: "thingpark-enterprise-backup"
-
-# OPTION 3: Configuration to use Azure blob storage
-# backup:
-#   schedule: "30 2 * * *"
-#   azure:
-#     resourceGroup: <resource group>
-#     storageAccount: <storage account>
-#     blobContainer: thingpark-enterprise-backup
-#     cloudName: AzurePublicCloud  # Available values: AzurePublicCloud AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
-#     subscriptionId: <>
-#     tenantId: <>
-#     clientId: <>
-#     clientSecret: <>
 
 ### ISOLATION CONFIGURATION ###
 # Once your cluster use a networking plugin which supports NetworkPolicy, you can start to filter thingpark workloads ingress. 
