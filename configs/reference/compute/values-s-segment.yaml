@@ -396,7 +396,7 @@ tpx-flow:
       limits:
         memory: 300Mi
 
-tp-dx:
+tpdx-tpe:
   priorityClassName: thingpark-enterprise-data-path
   replicaCount: 1
   resources:

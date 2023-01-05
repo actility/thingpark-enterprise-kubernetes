@@ -508,13 +508,6 @@ tpx-flow:
 tp-dx:
   nodeSelector: *nodeSelector
   tolerations: *tolerations
-  priorityClassName: thingpark-enterprise-data-path
-  replicaCount: 2
-  resources:
-    requests:
-      memory: 360Mi
-    limits:
-      memory: 480Mi
 node-red:
   nodeSelector: *nodeSelector
   tolerations: *tolerations
@@ -577,3 +570,11 @@ global:
   iotFlow:
     maxConnections: 20
   storageType: "az-premium-lrs"
+tpdx-tpe:
+  priorityClassName: thingpark-enterprise-data-path
+  replicaCount: 2
+  resources:
+    requests:
+      memory: 360Mi
+    limits:
+      memory: 480Mi
