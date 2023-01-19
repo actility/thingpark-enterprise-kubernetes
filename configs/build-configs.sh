@@ -19,7 +19,7 @@ do
             yq eval-all '. as $item ireduce ({}; . * $item)' reference/values-selectors.yaml \
                 reference/compute/values-${s}-segment.yaml \
                 reference/storage/values-${s}-segment.yaml \
-                ${cloud_values} > ${f}/values-${s}-segment.yaml
+                ${cloud_values} | tee ${f}/values-${s}-segment.yaml
     done
 done
  
