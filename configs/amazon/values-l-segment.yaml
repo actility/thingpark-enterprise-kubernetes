@@ -573,6 +573,9 @@ global:
   iotFlow:
     maxConnections: 10
   storageType: "aws-ebs-gp2"
+priorityClasss:
+  dataPath:
+    name: thingpark-enterprise-data-path
 tpdx-tpe:
   priorityClassName: thingpark-enterprise-data-path
   replicaCount: 2

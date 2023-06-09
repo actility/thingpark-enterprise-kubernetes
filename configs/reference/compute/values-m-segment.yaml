@@ -2,6 +2,10 @@ global:
   iotFlow:
     maxConnections: 10
 
+priorityClasss:
+  dataPath:
+    name: thingpark-enterprise-data-path
+
 kafka-cluster:
   priorityClassName: thingpark-data-high
   kafka:
