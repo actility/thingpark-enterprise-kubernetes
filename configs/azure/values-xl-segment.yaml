@@ -570,6 +570,12 @@ global:
   iotFlow:
     maxConnections: 20
   storageType: "az-premium-lrs"
+priorityClasss:
+  dataPath:
+    name: thingpark-enterprise-data-path
+    description: "PriorityClass for data path pods. Value must be the highest of both data/application stack"
+    value: 1000000
+    globalDefault: false
 tpdx-tpe:
   priorityClassName: thingpark-enterprise-data-path
   replicaCount: 2

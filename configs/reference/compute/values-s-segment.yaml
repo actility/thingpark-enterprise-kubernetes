@@ -2,6 +2,13 @@ global:
   iotFlow:
     maxConnections: 5
 
+priorityClasss:
+  dataPath:
+    name: thingpark-enterprise-data-path
+    description: "PriorityClass for data path pods. Value must be the highest of both data/application stack"
+    value: 1000000
+    globalDefault: false
+
 kafka-cluster:
   priorityClassName: thingpark-data-high
   kafka:

@@ -1,29 +1,35 @@
 global:
   iotFlow:
     maxConnections: 20
-
-priorityClasss:
-  dataPath:
-    name: thingpark-enterprise-data-path
-    description: "PriorityClass for data path pods. Value must be the highest of both data/application stack"
-    value: 1000000
-    globalDefault: false
-
 kafka-cluster:
-  priorityClassName: thingpark-data-high
   kafka:
+    config:
+      num.replica.fetchers: 3
+    jvmOptions:
+      -Xms: 306M
+      -Xmx: 1225M
     resources:
       requests:
         memory: 3675Mi
       limits:
         memory: 4900Mi
+    persistence:
+      local: false
+      storageSize: 40Gi
+      storageClass: "thingpark-xfs"
   zookeeper:
+    jvmOptions:
+      -Xms: 100M
+      -Xmx: 150M
     resources:
       requests:
         memory: 150Mi
       limits:
         memory: 200Mi
-
+    persistence:
+      local: false
+      storageSize: 5Gi
+      storageClass: "thingpark-xfs"
 mongo-replicaset:
   replicaSet:
     resources:
@@ -31,26 +37,26 @@ mongo-replicaset:
         memory: 52275Mi
       limits:
         memory: 69700Mi
-    priorityClassName: thingpark-data-high
-
   arbiter:
     resources:
       requests:
         memory: 150Mi
       limits:
         memory: 200Mi
-    priorityClassName: thingpark-data-low
-
+  persistence:
+    local: false
+    size: 365Gi
+    storageClass: "thingpark-xfs"
 zookeeper:
-  priorityClassName: thingpark-data-high
   resources:
     requests:
       memory: 113Mi
     limits:
       memory: 150Mi
-
+  persistence:
+    size: 5Gi
+    storageClass: "thingpark-xfs"
 mariadb-galera:
-  priorityClassName: thingpark-data-high
   resources:
     limits:
       memory: 4400Mi
@@ -182,7 +188,7 @@ mariadb-galera:
     wsrep_cluster_address=gcomm://
     wsrep_cluster_name=galera
     wsrep_sst_auth="root:"
-    wsrep_provider_options = "gcache.size=2G;gcs.fc_limit=60;gcs.fc_factor=0.8; gmcast.segment=0"
+    wsrep_provider_options = gcache.size=2G;gcs.fc_limit=60;gcs.fc_factor=0.8;gmcast.segment=0
     innodb_flush_log_at_trx_commit=2
     # MYISAM REPLICATION SUPPORT #
     wsrep_replicate_myisam=ON
@@ -194,9 +200,10 @@ mariadb-galera:
 
     [mariadb]
     plugin_load_add=auth_pam
-
+  persistence:
+    size: 30Gi
+    storageClass: "thingpark-xfs"
 lrc:
-  priorityClassName: thingpark-enterprise-data-path
   replicaCount: 2
   lrc:
     resources:
@@ -231,151 +238,125 @@ lrc:
         memory: 150Mi
       limits:
         memory: 200Mi
-
+  persistence:
+    size: 15Gi
+    ftpSize: 10Gi
+    storageClass: "thingpark-ext4"
+    ftpStorageClass: "thingpark-xfs"
 node-red:
-  priorityClassName: thingpark-enterprise-data-path
   replicaCount: 1
   resources:
     requests:
       memory: 300Mi
     limits:
       memory: 400Mi
-
+  persistence:
+    size: 10Gi
+    storageClass: "thingpark-xfs"
 sql-proxy:
-  priorityClassName: thingpark-enterprise-data-path
   replicaCount: 2
   resources:
     requests:
       memory: 450Mi
     limits:
       memory: 600Mi
-
 lrc-proxy:
-  priorityClassName: thingpark-enterprise-data-path
   replicaCount: 2
   resources:
     requests:
       memory: 150Mi
     limits:
       memory: 200Mi
-
 support:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
     requests:
       memory: 300Mi
     limits:
       memory: 400Mi
-
 wireless-pki:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     requests:
       memory: 2400Mi
     limits:
       memory: 3200Mi
-
 cups-server:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
     limits:
       memory: 200Mi
-
 locsolver:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
     requests:
       memory: 150Mi
     limits:
       memory: 200Mi
-
 tp-gui:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     requests:
       memory: 150Mi
     limits:
       memory: 200Mi
-
 smp-tpe:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     requests:
       memory: 180Mi
     limits:
       memory: 240Mi
-
 twa:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     requests:
       memory: 2400Mi
     limits:
       memory: 3200Mi
-
 twa-admin:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     requests:
       memory: 300Mi
     limits:
       memory: 400Mi
-
 twa-dev:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     requests:
       memory: 1800Mi
     limits:
       memory: 2400Mi
-
 twa-ran:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     requests:
       memory: 1800Mi
     limits:
       memory: 2400Mi
-
 twa-task-res:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     requests:
       memory: 900Mi
     limits:
       memory: 1200Mi
-
 twa-alarm-notif:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
     requests:
       memory: 150Mi
     limits:
       memory: 200Mi
-
 task-notif-ws:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
     requests:
       memory: 900Mi
     limits:
       memory: 1200Mi
-
 tpx-flow:
-  priorityClassName: thingpark-enterprise-data-path
   engine:
     replicaCount: 2
     resources:
@@ -411,18 +392,14 @@ tpx-flow:
         memory: 900Mi
       limits:
         memory: 1200Mi
-
-tpdx-tpe:
-  priorityClassName: thingpark-enterprise-data-path
+tp-dx:
   replicaCount: 2
   resources:
     requests:
       memory: 900Mi
     limits:
       memory: 1200Mi
-
 nssa:
-  priorityClassName: thingpark-enterprise-services
   networkSurvey:
     replicaCount: 1
     resources:
@@ -437,29 +414,23 @@ nssa:
         memory: 150Mi
       limits:
         memory: 200Mi
-
 wlogger:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 2
   resources:
     requests:
       memory: 450Mi
     limits:
       memory: 600Mi
-
 shellinabox:
-  priorityClassName: thingpark-enterprise-services
   replicaCount: 1
   resources:
     requests:
       memory: 150Mi
     limits:
       memory: 200Mi
-
 # Configuration for controllers
 ingress-nginx:
   controller:
-    priorityClassName: thingpark-enterprise-data-path
     resources:
       requests:
         memory: 288Mi
