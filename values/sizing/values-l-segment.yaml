@@ -197,7 +197,7 @@ mariadb-galera:
     wsrep_provider_options = gcache.size=2G;gcs.fc_limit=60;gcs.fc_factor=0.8;gmcast.segment=0
     innodb_flush_log_at_trx_commit=2
     # MYISAM REPLICATION SUPPORT #
-    wsrep_replicate_myisam=ON
+    wsrep_mode=REPLICATE_MYISAM
 
     ### Maximum number of rows in write set
     wsrep_max_ws_rows                        = 0
