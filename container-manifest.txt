@@ -7,7 +7,7 @@ repository.thingpark.com/percona-server-mongodb-operator:1.13.0
 repository.thingpark.com/thingpark-kubernetes/cron-rfscan:2.10.0-0
 repository.thingpark.com/thingpark-kubernetes/db-manager:0.5.0-1
 repository.thingpark.com/thingpark-kubernetes/locsolver:1.2.31_2-1
-repository.thingpark.com/thingpark-kubernetes/lrc:1.26.15-1
+repository.thingpark.com/thingpark-kubernetes/lrc:1.26.15a-2
 repository.thingpark.com/thingpark-kubernetes/lrc-proxy:0.6.0-1
 repository.thingpark.com/thingpark-kubernetes/lrc-sync:1.7.0-1
 repository.thingpark.com/thingpark-kubernetes/network-survey:2.0.4-7.3.6-1
@@ -40,14 +40,14 @@ repository.thingpark.com/thingpark-kubernetes/tpx-flow-engine:3.4.0-1
 repository.thingpark.com/thingpark-kubernetes/tpx-flow-hub:1.7.18c-1
 repository.thingpark.com/thingpark-kubernetes/tpx-flow-supervisor:1.7.18c-1
 repository.thingpark.com/thingpark-kubernetes/tpx-flow-ui-tpe:3.26.2-1
-repository.thingpark.com/thingpark-kubernetes/twa:17.32.0-1
+repository.thingpark.com/thingpark-kubernetes/twa:17.32.0-2
 repository.thingpark.com/thingpark-kubernetes/twa-admin:16.12.6-1
 repository.thingpark.com/thingpark-kubernetes/twa-alarm-notif:2.4.0-1
 repository.thingpark.com/thingpark-kubernetes/twa-dev:9.20.1-1
-repository.thingpark.com/thingpark-kubernetes/twa-mongo:17.32.0-1
+repository.thingpark.com/thingpark-kubernetes/twa-mongo:17.32.0-2
 repository.thingpark.com/thingpark-kubernetes/twa-ran:8.8.1-1
-repository.thingpark.com/thingpark-kubernetes/twa-scripts:17.32.0-1
-repository.thingpark.com/thingpark-kubernetes/twa-sql:17.32.0-1
+repository.thingpark.com/thingpark-kubernetes/twa-scripts:17.32.0-2
+repository.thingpark.com/thingpark-kubernetes/twa-sql:17.32.0-2
 repository.thingpark.com/thingpark-kubernetes/twa-task-res:5.6.0-1
 repository.thingpark.com/thingpark-kubernetes/wlogger:14.10.1-1
 repository.thingpark.com/percona-server-mongodb-operator:1.13.0
