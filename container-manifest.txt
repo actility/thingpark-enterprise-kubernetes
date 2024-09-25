@@ -14,7 +14,7 @@ repository.thingpark.com/thingpark-kubernetes/network-survey:2.0.4-7.3.6-1
 repository.thingpark.com/thingpark-kubernetes/nssa-mongo:1.0.1-7.3.3-1
 repository.thingpark.com/thingpark-kubernetes/post-upgrade:1.5.0-1
 repository.thingpark.com/thingpark-kubernetes/post-upgrade-sql:1.5.0-1
-repository.thingpark.com/thingpark-kubernetes/rca:4.12.0-1
+repository.thingpark.com/thingpark-kubernetes/rca:4.12.1-1
 repository.thingpark.com/thingpark-kubernetes/rca-cron:6.1.1-1
 repository.thingpark.com/thingpark-kubernetes/rca-mongo:2.0.8-1
 repository.thingpark.com/thingpark-kubernetes/sftp:2.7.0-1
@@ -26,7 +26,7 @@ repository.thingpark.com/thingpark-kubernetes/spectrum-analysis:3.0.2-7.3.6-1
 repository.thingpark.com/thingpark-kubernetes/sql-proxy:2.4.8-7.3.6-1
 repository.thingpark.com/thingpark-kubernetes/sshd:2.8.0-1
 repository.thingpark.com/thingpark-kubernetes/task-notif-ws:7.8.0-1
-repository.thingpark.com/thingpark-kubernetes/tp-backup:0.5.0-1
+repository.thingpark.com/thingpark-kubernetes/tp-backup:0.5.1-1
 repository.thingpark.com/thingpark-kubernetes/tpdx-admin-database:4.0.6-1
 repository.thingpark.com/thingpark-kubernetes/tpdx-admin-tpe:4.0.6-1
 repository.thingpark.com/thingpark-kubernetes/tpdx-core-tpe:3.4.9-1
