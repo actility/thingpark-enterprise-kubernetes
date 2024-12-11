@@ -30,6 +30,8 @@ node ('ec2.jammy.medium'){
                sudo apt-get update 
                sudo apt-get install -y jq
                helm repo add actility https://repo.int.actility.com/artifactory/actility-helm-charts
+               git config --global user.email 'it+jenkins@actility.com'
+               git config --global user.name 'jenkins'
                '''
     )  
     updateGitlabCommitStatus name: "Pipeline", state: 'running'
@@ -39,7 +41,9 @@ node ('ec2.jammy.medium'){
   stage("Update container manifest") {
     sshagent(['37c5452f-f7a1-43e7-9cf9-48ea8ffd814c']) {
       sh(script: '''
+                  git checkout ${BRANCH_NAME}
                   bash scripts/get-container-images.sh
+                  set +e
                   git diff --quiet container-manifest.txt
                   if [ $? -eq 1 ]; then
                     git add container-manifest.txt
