@@ -1,0 +1,53 @@
+node ('ec2.jammy.medium'){
+  properties([
+    buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
+    disableConcurrentBuilds(),
+    gitLabConnection(gitLabConnection: 'Git corporate', jobCredentialId: ''),
+    [$class: 'JobLocalConfiguration', changeReasonComment: '']
+  ])
+
+  def goRoot = tool type: 'go', name: 'go_1.21'
+  env.GOROOT = "${goRoot}"
+  env.PATH = "${PATH}:${goRoot}/bin"
+  env.REGISTRY_NAMESPACE = 'thingpark-kubernetes'
+
+  stage('Initialize pipeline') {
+    checkout([
+         $class: 'GitSCM',
+         branches: scm.branches,
+         doGenerateSubmoduleConfigurations: false,
+         submoduleCfg: [],
+          extensions: [[$class: 'SubmoduleOption',
+                        disableSubmodules: true,
+                        parentCredentials: false,
+                        recursiveSubmodules: false,
+                        reference: '',
+                        trackingSubmodules: false],
+                       [$class: 'CloneOption', noTags: false,]],
+         userRemoteConfigs: scm.userRemoteConfigs
+    ])
+    sh(script: '''
+               sudo apt-get update 
+               sudo apt-get install -y jq
+               '''
+    )  
+    updateGitlabCommitStatus name: "Pipeline", state: 'running'
+
+  }
+
+  stage("Update container manifest") {
+    sshagent(['37c5452f-f7a1-43e7-9cf9-48ea8ffd814c']) {
+      sh(script: '''
+                  bash scripts/get-container-images.sh
+                  git diff --quiet container-manifest.txt
+                  if [ $? -eq 1 ]; then
+                    git add container-manifest.txt
+                    git commit -m "Update container-manifest.txt"
+                    git push
+                  fi
+                 '''
+      )
+    }
+    updateGitlabCommitStatus name: "Pipeline", state: 'success'
+  }
+}
