@@ -38,9 +38,16 @@ mongo-replicaset:
     resources:
       requests:
         cpu: 400m
-        memory: 2205Mi
+        memory: 2295Mi
       limits:
-        memory: 2940Mi
+        memory: 3060Mi
+  arbiter:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 150Mi
+      limits:
+        memory: 200Mi
 
 zookeeper:
   persistence:

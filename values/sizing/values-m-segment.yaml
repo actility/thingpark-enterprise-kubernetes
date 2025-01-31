@@ -38,9 +38,9 @@ mongo-replicaset:
     resources:
       requests:
         cpu: 150m
-        memory: 2360Mi
+        memory: 1316Mi
       limits:
-        memory: 2360Mi
+        memory: 1755Mi
   arbiter:
     resources:
       requests:
