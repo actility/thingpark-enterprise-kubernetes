@@ -1,0 +1,36 @@
+# Warning, choose appropriate machine type that support pd-standard and pd-ssd storage types
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: thingpark-csi-standard-xfs
+parameters:
+  type: pd-standard
+  csi.storage.k8s.io/fstype: xfs
+provisioner: pd.csi.storage.gke.io
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: thingpark-csi-ssd-xfs
+parameters:
+  type: pd-ssd
+  csi.storage.k8s.io/fstype: xfs
+provisioner: pd.csi.storage.gke.io
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: thingpark-csi-ssd-ext4
+parameters:
+  type: pd-ssd
+  csi.storage.k8s.io/fstype: ext4
+provisioner: pd.csi.storage.gke.io
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
