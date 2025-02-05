@@ -6,7 +6,7 @@ global:
 kafka-cluster:
   kafka:
     persistence:
-      storageSize: 20Gi
+      storageSize: 30Gi
     config:
       num.replica.fetchers: 3
     jvmOptions:
@@ -61,7 +61,7 @@ zookeeper:
 
 mariadb-galera:
   persistence:
-    size: 10Gi
+    size: 15Gi
   resources:
     requests:
       cpu: 150m
