@@ -66,9 +66,9 @@ global:
 
   ### THINGPARK REPOSITORY CONFIGURATION ###
   # No additional configuration required when use production repositories
-  repositories:
-    containerImagesRegistry:
-      # fqdn: "<private-registry>"
+  # repositories:
+  #   containerImagesRegistry:
+  #     fqdn: "<private-registry>"
 
   ### FEDERATION CONFIGURATION ###
   ## 1. First installation procedure must be done before attempting to enable federation. First admininstrator must be created with the email of an existing user in the federated IDP
