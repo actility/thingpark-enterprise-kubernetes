@@ -342,13 +342,13 @@ ingress-nginx:
     3002: <namespace>/lrc-proxy:3002
     # Uncomment to expose Basics Station LNS endpoint
     # 4443: <namespace>/lrc-proxy-lns:8443
-  controller:
-    # image:
-    #   registry: "<private-registry>"
-    # admissionWebhooks:
-    #   patch:
-    #     image:
-    #       registry: "<private-registry>"
+  # controller:
+  #   image:
+  #     registry: "<private-registry>"
+  #   admissionWebhooks:
+  #     patch:
+  #       image:
+  #         registry: "<private-registry>"
 # OPTIONAL: DNS dynamic provisioning
 ## OPTION1: AZURE controller configuration to attach DNS to loadbalancer 
 ## dnsHostname should be composed of Azure DNS alias followed by Azure region domain name (i.e. thingpark-enterprise.westeurope.cloudapp.azure.com)
