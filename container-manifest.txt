@@ -52,9 +52,9 @@ quay.io/strimzi/kafka:0.44.0-kafka-3.7.1
 quay.io/strimzi/operator:0.44.0
 repository.thingpark.com/bitnami/mariadb-galera:10.11.9-debian-12-r3
 repository.thingpark.com/bitnami/zookeeper:3.8.4-debian-12-r15
-repository.thingpark.com/percona-server-mongodb:7.0.14-8
-repository.thingpark.com/percona-server-mongodb-operator:1.19.0
-repository.thingpark.com/percona-server-mongodb-operator:1.19.0
+repository.thingpark.com/percona-server-mongodb:7.0.16-10
+repository.thingpark.com/percona-server-mongodb-operator:1.17.0
+repository.thingpark.com/percona-server-mongodb-operator:1.17.0
 repository.thingpark.com/strimzi/operator:0.44.0
 repository.thingpark.com/ingress-nginx/controller:v1.11.3
 repository.thingpark.com/ingress-nginx/kube-webhook-certgen:v1.4.4
