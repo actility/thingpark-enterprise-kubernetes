@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# CHANGELOG
+# - 2025-03-14: RDTP-24177: [RDTP-24129][TPEOCP-K8S] FDB_LoRa repair script must be integrated to TPE deliveries
+ 
 set -o nounset
 set -o pipefail
 
@@ -36,6 +40,9 @@ get_secrets=0
 use_metrics_api=yes
 thingpark_flavor=${thingpark_flavor:-"thingpark-enterprise"}
 node_selector=${node_selector:-"thingpark.enterprise.actility.com/nodegroup-name=tpe"}
+
+container_registry=${container_registry:-"repository.thingpark.com"}
+container_namespace=${container_namespace:-"thingpark-kubernetes"}
 
 red=$(tput setaf 1)
 green=$(tput setaf 2)
@@ -77,10 +84,13 @@ usage(){
     echo "ThingPark Kubernetes deployment audit script"
     echo ""
 cat << EOF
-Usage: ${0##*/} [-d tarball_path] [-c context] [-n namespace] [-s secrets]
+Usage: ${0##*/} [ options ]
 Options:
        -h: show this help
        -n | --namespace: The Namespace of ThingPark Enterprise deployment
+       -p | --pull-secret: An optional pull secret to use to pull audit tools images
+       -r | --registry: An optional registry where pull audit tools images
+       -rn | --registry-ns: An optional registry namesapce where pull audit tools images
        -c | --context: Use specific Kubernetes context to reach ThingPark Enterprise deployment
        -d | --directory: Path where put audit result. Default current dir
        -s | --secrets: Export Secret content
@@ -141,6 +151,16 @@ process_options(){
         shift
         shift
         ;;
+      -r | --registry)
+        container_registry="${2}"
+        shift
+        shift
+        ;;
+      -rn | --registry-ns)
+        container_namespace="${2}"
+        shift
+        shift
+        ;;
       *)
         usage
         panic "Unknown parameter \"${1}\""
@@ -182,9 +202,45 @@ check_prerequisites(){
   kubectl_opts+=" --namespace ${namespace}"
   info "Use ${namespace} as ThingPark Enterprise deployment namespace"
 
+  lrc_audit_pod_spec="
+  { \"apiVersion\": \"v1\", 
+    \"spec\": { 
+    \"volumes\": [
+      {
+        \"name\": \"data\",
+        \"persistentVolumeClaim\": {\"claimName\": \"data-lrc-0\"}
+      }
+    ], 
+    \"containers\": 
+      [
+        {
+          \"args\": [\"--scan\", \"stdout\", \"json\"], 
+          \"name\": \"fdb-audit\", 
+          \"image\": \"${container_registry}/${container_namespace}/repair-fdblora:1.0.10\",
+          \"securityContext\": {
+            \"allowPrivilegeEscalation\":false, 
+            \"capabilities\": {\"drop\": [\"ALL\"]}
+          }, 
+          \"volumeMounts\": [
+            {
+              \"mountPath\": \"/home/actility\", 
+              \"name\": \"data\"
+            }
+          ]
+        }
+      ],
+      \"securityContext\": {
+        \"fsGroup\": 2000, 
+        \"runAsNonRoot\": true, 
+        \"runAsUser\": 2000, 
+        \"seccompProfile\": {\"type\": \"RuntimeDefault\"}
+      }
+    }
+  }"
   kubectl_run_opts="${kubectl_opts}"
   if [ "${pull_secret}" != "" ]; then
     kubectl_run_opts+=" --overrides={\"spec\":{\"imagePullSecrets\":[{\"name\":\"${pull_secret}\"}]}}"
+    lrc_audit_pod_spec=$(jq -n "${lrc_audit_pod_spec} * {\"spec\":{\"imagePullSecrets\":[{\"name\":\"${pull_secret}\"}]}}")
     info "Use ${pull_secret} secret to pull images"
   fi
   ${kube_bin} ${kubectl_opts} get --raw "/apis/metrics.k8s.io" > /dev/null 2>&1
@@ -503,8 +559,17 @@ audit_thingpark(){
       fi
     counter=$(( $counter - 1 ))
   done
-  success "Get get Lrc info"
+  success "Get Lrc info"
 
+  ${kube_bin} ${kubectl_opts} --overrides="${lrc_audit_pod_spec}" \
+    run fdb-audit -it --rm -q --restart='Never' \
+    --image thingpark-wireless/repair-fdblora:1.0.10 \
+    > ${tmp_dir}/thingpark/repair-fdblora-scan.json
+  if [ $? -ne 0 ]; then
+    error "Fail to get repair-fdblora scan"
+  else
+    success "Get repair-fdblora scan"
+  fi
 
 }
 
