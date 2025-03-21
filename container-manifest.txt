@@ -24,7 +24,7 @@ repository.thingpark.com/thingpark-kubernetes/smp-tpe-database:4.8.1-8.0.5-2
 repository.thingpark.com/thingpark-kubernetes/smp-tpe-mongo:4.8.1-8.0.5-2
 repository.thingpark.com/thingpark-kubernetes/sshd:3.2.0-1
 repository.thingpark.com/thingpark-kubernetes/task-notif-ws:8.10.0
-repository.thingpark.com/thingpark-kubernetes/tp-backup:1.2.1
+repository.thingpark.com/thingpark-kubernetes/tp-backup:1.2.2
 repository.thingpark.com/thingpark-kubernetes/tpdx-admin-database:5.4.0-1
 repository.thingpark.com/thingpark-kubernetes/tpdx-admin-tpe:5.4.0
 repository.thingpark.com/thingpark-kubernetes/tpdx-core-tpe:4.4.0
