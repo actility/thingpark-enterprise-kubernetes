@@ -390,13 +390,56 @@ twa:
       requests:
         cpu: 25m
         memory: 64Mi
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 50m
-      memory: 690Mi
-    limits:
-      memory: 920Mi
+  taskNotifWs:
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 260Mi
+      limits:
+        memory: 345Mi
+  twaAlarmNotif:
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 44Mi
+      limits:
+        memory: 58Mi
+  twaCore:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 50m
+        memory: 690Mi
+      limits:
+        memory: 920Mi
+  twaDev:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 50m
+        memory: 518Mi
+      limits:
+        memory: 690Mi
+  twaDevTaskFc:
+    replicaCount: 0
+  twaRan:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 50m
+        memory: 518Mi
+      limits:
+        memory: 690Mi
+  twaTaskRes:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 10m
+        memory: 260Mi
+      limits:
+        memory: 345Mi
 
 twa-admin:
   replicaCount: 2
@@ -406,52 +449,6 @@ twa-admin:
       memory: 130Mi
     limits:
       memory: 173Mi
-
-twa-dev:
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 50m
-      memory: 518Mi
-    limits:
-      memory: 690Mi
-
-twa-ran:
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 50m
-      memory: 518Mi
-    limits:
-      memory: 690Mi
-
-twa-task-res:
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 10m
-      memory: 260Mi
-    limits:
-      memory: 345Mi
-
-twa-alarm-notif:
-  replicaCount: 1
-  resources:
-    requests:
-      cpu: 10m
-      memory: 44Mi
-    limits:
-      memory: 58Mi
-
-task-notif-ws:
-  replicaCount: 1
-  resources:
-    requests:
-      cpu: 10m
-      memory: 260Mi
-    limits:
-      memory: 345Mi
-
 tpx-flow:
   sqlUpgrade:
     resources:
