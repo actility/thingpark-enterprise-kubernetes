@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# CHANGELOG
+# - 2025-03-14: RDTP-24177: [RDTP-24129][TPEOCP-K8S] FDB_LoRa repair script must be integrated to TPE deliveries
+ 
 set -o nounset
 set -o pipefail
 
@@ -31,10 +35,14 @@ error_counter=0
 # Kubernetes context
 namespace="thingpark-enterprise"
 context=""
+pull_secret=""
 get_secrets=0
 use_metrics_api=yes
 thingpark_flavor=${thingpark_flavor:-"thingpark-enterprise"}
 node_selector=${node_selector:-"thingpark.enterprise.actility.com/nodegroup-name=tpe"}
+
+container_registry=${container_registry:-"repository.thingpark.com"}
+container_namespace=${container_namespace:-"thingpark-kubernetes"}
 
 red=$(tput setaf 1)
 green=$(tput setaf 2)
@@ -76,10 +84,13 @@ usage(){
     echo "ThingPark Kubernetes deployment audit script"
     echo ""
 cat << EOF
-Usage: ${0##*/} [-d tarball_path] [-c context] [-n namespace] [-s secrets]
+Usage: ${0##*/} [ options ]
 Options:
        -h: show this help
        -n | --namespace: The Namespace of ThingPark Enterprise deployment
+       -p | --pull-secret: An optional pull secret to use to pull audit tools images
+       -r | --registry: An optional registry where pull audit tools images
+       -rn | --registry-ns: An optional registry namesapce where pull audit tools images
        -c | --context: Use specific Kubernetes context to reach ThingPark Enterprise deployment
        -d | --directory: Path where put audit result. Default current dir
        -s | --secrets: Export Secret content
@@ -120,6 +131,11 @@ process_options(){
         get_secrets=1
         shift
         ;;
+      -p | --pull-secret)
+        pull_secret="${2}"
+        shift
+        shift
+        ;;
       -d | --directory)
         output_dir="${2}"
         shift
@@ -132,6 +148,16 @@ process_options(){
         ;;
       -c | --context)
         context="${2}"
+        shift
+        shift
+        ;;
+      -r | --registry)
+        container_registry="${2}"
+        shift
+        shift
+        ;;
+      -rn | --registry-ns)
+        container_namespace="${2}"
         shift
         shift
         ;;
@@ -176,6 +202,47 @@ check_prerequisites(){
   kubectl_opts+=" --namespace ${namespace}"
   info "Use ${namespace} as ThingPark Enterprise deployment namespace"
 
+  lrc_audit_pod_spec="
+  { \"apiVersion\": \"v1\", 
+    \"spec\": { 
+    \"volumes\": [
+      {
+        \"name\": \"data\",
+        \"persistentVolumeClaim\": {\"claimName\": \"data-lrc-0\"}
+      }
+    ], 
+    \"containers\": 
+      [
+        {
+          \"args\": [\"--scan\", \"stdout\", \"json\"], 
+          \"name\": \"fdb-audit\", 
+          \"image\": \"${container_registry}/${container_namespace}/repair-fdblora:1.0.10\",
+          \"securityContext\": {
+            \"allowPrivilegeEscalation\":false, 
+            \"capabilities\": {\"drop\": [\"ALL\"]}
+          }, 
+          \"volumeMounts\": [
+            {
+              \"mountPath\": \"/home/actility\", 
+              \"name\": \"data\"
+            }
+          ]
+        }
+      ],
+      \"securityContext\": {
+        \"fsGroup\": 2000, 
+        \"runAsNonRoot\": true, 
+        \"runAsUser\": 2000, 
+        \"seccompProfile\": {\"type\": \"RuntimeDefault\"}
+      }
+    }
+  }"
+  kubectl_run_opts="${kubectl_opts}"
+  if [ "${pull_secret}" != "" ]; then
+    kubectl_run_opts+=" --overrides={\"spec\":{\"imagePullSecrets\":[{\"name\":\"${pull_secret}\"}]}}"
+    lrc_audit_pod_spec=$(jq -n "${lrc_audit_pod_spec} * {\"spec\":{\"imagePullSecrets\":[{\"name\":\"${pull_secret}\"}]}}")
+    info "Use ${pull_secret} secret to pull images"
+  fi
   ${kube_bin} ${kubectl_opts} get --raw "/apis/metrics.k8s.io" > /dev/null 2>&1
   if [ $? -ne 0 ]; then
     warn "Metric API not available"
@@ -212,6 +279,10 @@ prepare(){
   MARIADB_IMAGE=$(${kube_bin} ${kubectl_opts} get sts mariadb-galera -o jsonpath='{.spec.template.spec.containers[0].image}')
   if [ $? -ne 0 ]; then
     panic "Fail to get MariaDB client Image"
+  fi
+  KAFKA_IMAGE=$(${kube_bin} ${kubectl_opts} get sps kafka-cluster-kafka -o jsonpath='{.spec.pods[0].spec.containers[0].image}')
+  if [ $? -ne 0 ]; then
+    panic "Fail to get Kafka client Image"
   fi
   MONGODB_PASSWORD=$(${kube_bin} ${kubectl_opts} get secrets maintenance-mongo-account -o jsonpath='{.data.userPassword}' | base64 -d)
   if [ $? -ne 0 ]; then
@@ -330,7 +401,7 @@ audit_compute_storage_resources(){
 
 audit_databases(){
 
-  ${kube_bin} ${kubectl_opts} \
+  ${kube_bin} ${kubectl_run_opts} \
     run mariadb-client -it --rm --restart='Never' \
     --env="MARIADB_PASSWORD=$MARIADB_PASSWORD" --image $MARIADB_IMAGE \
     -- bash -c "mysql -N -B -h mariadb-galera -u root --password=$MARIADB_PASSWORD \
@@ -344,7 +415,7 @@ audit_databases(){
     success "Get MariaDB tables stats"
   fi
 
-  ${kube_bin} ${kubectl_opts} \
+  ${kube_bin} ${kubectl_run_opts} \
     run mariadb-client -it --rm --restart='Never' \
     --env="MARIADB_PASSWORD=$MARIADB_PASSWORD" --image $MARIADB_IMAGE \
     -- bash -c "mysql -N -B -h mariadb-galera -u root --password=$MARIADB_PASSWORD \
@@ -358,10 +429,10 @@ audit_databases(){
     success "Get MariaDB databases stats"
   fi
 
-  ${kube_bin} ${kubectl_opts} \
+  ${kube_bin} ${kubectl_run_opts} \
     run mongo-client -it --rm --restart='Never' \
     --env="MONGODB_PASSWORD=$MONGODB_PASSWORD" --image $MONGODB_CLIENT_IMAGE \
-    -- bash -c "mongo -u maintenance -p $MONGODB_PASSWORD \
+    -- bash -c "mongosh -u maintenance -p $MONGODB_PASSWORD \
     --authenticationDatabase admin mongodb://mongo-replicaset-rs0/?replicaSet=rs0 \
     --eval 'db.adminCommand( { listDatabases: 1 } )'" > ${tmp_dir}/data-stack/mongo-databases-metrics.txt 2>&1
   if [ $? -ne 0 ]; then
@@ -370,21 +441,23 @@ audit_databases(){
     success "Get MongoDB databases stats"
   fi
 
-  ${kube_bin} ${kubectl_opts} \
+  ${kube_bin} ${kubectl_run_opts} \
     run mongo-client -it --rm --restart='Never' \
     --env="MONGODB_PASSWORD=$MONGODB_PASSWORD" --image $MONGODB_CLIENT_IMAGE \
-    -- bash -c "mongo -u maintenance -p $MONGODB_PASSWORD \
+    -- bash -c "mongosh -u maintenance -p $MONGODB_PASSWORD \
     --authenticationDatabase admin mongodb://mongo-replicaset-rs0/?replicaSet=rs0 \
     --eval 'var alldbs = db.getMongo().getDBNames(); \
     for(var j = 0; j < alldbs.length; j++){ \
-    if(alldbs[j] != \"admin\"){ \
+    if(alldbs[j] != \"config\" && alldbs[j] != \"admin\" \
+    && alldbs[j] != \"local\"){ \
     var db = db.getSiblingDB(alldbs[j]); \
     var collections = db.getCollectionNames(); \
     for(var i = 0; i < collections.length; i++){ \
+    if (collections[i] != \"system.views\"){ \
     var name = collections[i]; \
-    var c = db.getCollection(name).count(); \
-    print(db + \"  \" + name + \"    \" + c ); \
-    }}}'" > ${tmp_dir}/data-stack/mongo-databases-documents.txt 2>&1
+    var c = db.getCollection(name).countDocuments(); \
+    print(db.getName() + \"  \" + name + \"    \" + c ); \
+    }}}}'" > ${tmp_dir}/data-stack/mongo-databases-documents.txt 2>&1
   if [ $? -ne 0 ]; then
     error "Fail to get MongoDB documents stats"
   else
@@ -399,9 +472,9 @@ audit_databases(){
     success "Get kafka topic configuration"
   fi
 
-  ${kube_bin} ${kubectl_opts} \
+  ${kube_bin} ${kubectl_run_opts} \
     run kafka-client -it --rm --restart='Never' \
-    --image=quay.io/strimzi/kafka:0.32.0-kafka-3.3.1 \
+    --image=$KAFKA_IMAGE \
     -- bin/kafka-consumer-groups.sh \
     --bootstrap-server kafka-cluster-kafka-bootstrap:9092 \
     --describe --all-groups > ${tmp_dir}/data-stack/kafka-consumer-groups.txt 2>&1
@@ -413,7 +486,7 @@ audit_databases(){
 }
 
 audit_thingpark(){
-  ${kube_bin} ${kubectl_opts} \
+  ${kube_bin} ${kubectl_run_opts} \
     run mariadb-client -it --rm --restart='Never' \
     --env="MARIADB_PASSWORD=$MARIADB_PASSWORD" --image $MARIADB_IMAGE \
     -- bash -c "mysqldump -h mariadb-galera -u root --password=$MARIADB_PASSWORD \
@@ -428,14 +501,14 @@ audit_thingpark(){
 
   ${kube_bin} ${kubectl_opts} \
     exec -it deploy/pum -- \
-    status > ${tmp_dir}/thingpark/pum-status.txt
+    /nodejs/bin/node app.js display > ${tmp_dir}/thingpark/pum-status.txt
   if [ $? -ne 0 ]; then
     error "Fail to get Post Upgrade Manager status"
   else
     success "Get Post Upgrade Manager status"
   fi
 
-  ${kube_bin} ${kubectl_opts} \
+  ${kube_bin} ${kubectl_run_opts} \
     run mariadb-client -it --rm --restart='Never' \
     --env="MARIADB_PASSWORD=$MARIADB_PASSWORD" --image $MARIADB_IMAGE \
     -- bash -c "mysql -h mariadb-galera -u root --password=$MARIADB_PASSWORD \
@@ -486,8 +559,17 @@ audit_thingpark(){
       fi
     counter=$(( $counter - 1 ))
   done
-  success "Get get Lrc info"
+  success "Get Lrc info"
 
+  ${kube_bin} ${kubectl_opts} --overrides="${lrc_audit_pod_spec}" \
+    run fdb-audit -it --rm -q --restart='Never' \
+    --image thingpark-wireless/repair-fdblora:1.0.10 \
+    > ${tmp_dir}/thingpark/repair-fdblora-scan.json
+  if [ $? -ne 0 ]; then
+    error "Fail to get repair-fdblora scan"
+  else
+    success "Get repair-fdblora scan"
+  fi
 
 }
 

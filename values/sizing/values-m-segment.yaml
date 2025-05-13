@@ -6,7 +6,7 @@ global:
 kafka-cluster:
   kafka:
     persistence:
-      storageSize: 15Gi
+      storageSize: 20Gi
     config:
       num.replica.fetchers: 3
     jvmOptions:
@@ -17,7 +17,7 @@ kafka-cluster:
         cpu: 150m
         memory: 630Mi
       limits:
-        memory: 840Mi
+        memory: 1120Mi
   zookeeper:
     persistence:
       storageSize: 5Gi
@@ -38,9 +38,9 @@ mongo-replicaset:
     resources:
       requests:
         cpu: 150m
-        memory: 2360Mi
+        memory: 1316Mi
       limits:
-        memory: 2360Mi
+        memory: 1755Mi
   arbiter:
     resources:
       requests:
@@ -55,19 +55,19 @@ zookeeper:
   resources:
     requests:
       cpu: 150m
-      memory: 150Mi
+      memory: 112Mi
     limits:
-      memory: 250Mi
+      memory: 150Mi
 
 mariadb-galera:
   persistence:
-    size: 5Gi
+    size: 10Gi
   resources:
-    limits:
-      memory: 600Mi
     requests:
       cpu: 150m
       memory: 400Mi
+    limits:
+      memory: 540Mi
   mariadbConfiguration: |-
     [client]
     port=3306
@@ -107,9 +107,7 @@ mariadb-galera:
     sysdate_is_now=1
 
     ## Binary Logging
-    log_bin=mysql-bin
-    expire_logs_days=14
-    # Disabling for performance per http://severalnines.com/blog/9-tips-going-production-galera-cluster-mysql
+    disable_log_bin=1
     sync_binlog=0
     # Required for Galera
     binlog_format=row
@@ -197,7 +195,7 @@ mariadb-galera:
     wsrep_provider_options = gcache.size=2G;gcs.fc_limit=60;gcs.fc_factor=0.8;gmcast.segment=0
     innodb_flush_log_at_trx_commit=2
     # MYISAM REPLICATION SUPPORT #
-    wsrep_replicate_myisam=ON
+    wsrep_mode=REPLICATE_MYISAM
 
     ### Maximum number of rows in write set
     wsrep_max_ws_rows                        = 0
@@ -222,9 +220,9 @@ lrc: # 387 for all pods
     resources:
       requests:
         cpu: 120m
-        memory: 356Mi
+        memory: 695Mi
       limits:
-        memory: 475Mi
+        memory: 925Mi
     lrcIni:
       kafkalateul:
         enabled: 1
@@ -234,37 +232,37 @@ lrc: # 387 for all pods
     resources:
       requests:
         cpu: 10m
-        memory: 40Mi
+        memory: 260Mi
       limits:
-        memory: 40Mi
+        memory: 345Mi
   lrcSync:
     resources:
       requests:
         cpu: 10m
-        memory: 83Mi
+        memory: 86Mi
       limits:
-        memory: 110Mi
+        memory: 200Mi
   sftp:
     resources:
       requests:
         cpu: 10m
-        memory: 40Mi
+        memory: 44Mi
       limits:
-        memory: 40Mi
+        memory: 58Mi
   rfscanBatch:
     resources:
       requests:
         cpu: 10m
-        memory: 40Mi
+        memory: 44Mi
       limits:
-        memory: 40Mi
+        memory: 58Mi
   lrrFwFetch:
     resources:
       requests:
         cpu: 10m
-        memory: 40Mi
+        memory: 44Mi
       limits:
-        memory: 40Mi
+        memory: 58Mi
 
 sql-proxy:
   replicaCount: 2
@@ -276,9 +274,9 @@ sql-proxy:
   resources:
     requests:
       cpu: 100m
-      memory: 125Mi
+      memory: 130Mi
     limits:
-      memory: 165Mi
+      memory: 173Mi
 
 lrc-proxy:
   replicaCount: 2
@@ -295,9 +293,9 @@ support:
   resources:
     requests:
       cpu: 10m
-      memory: 83Mi
+      memory: 86Mi
     limits:
-      memory: 110Mi
+      memory: 115Mi
 
 wireless-pki:
   sqlUpgrade:
@@ -326,36 +324,36 @@ wireless-pki:
   resources:
     requests:
       cpu: 50m
-      memory: 900Mi
+      memory: 862Mi
     limits:
-      memory: 1000Mi
+      memory: 1150Mi
 
 cups-server:
   replicaCount: 1
   resources:
     requests:
       cpu: 10m
-      memory: 40Mi
+      memory: 86Mi
     limits:
-      memory: 55Mi
+      memory: 115Mi
 
 locsolver:
   replicaCount: 1
   resources:
     requests:
       cpu: 10m
-      memory: 40Mi
+      memory: 44Mi
     limits:
-      memory: 55Mi
+      memory: 58Mi
 
 tp-gui:
   replicaCount: 2
   resources:
     requests:
       cpu: 10m
-      memory: 40Mi
+      memory: 44Mi
     limits:
-      memory: 55Mi
+      memory: 58Mi
 
 smp-tpe:
   replicaCount: 2
@@ -364,7 +362,7 @@ smp-tpe:
       cpu: 10m
       memory: 50Mi
     limits:
-      memory: 66Mi
+      memory: 69Mi
 
 twa:
   cron:
@@ -392,68 +390,65 @@ twa:
       requests:
         cpu: 25m
         memory: 64Mi
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 50m
-      memory: 680Mi
-    limits:
-      memory: 750Mi
+  taskNotifWs:
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 260Mi
+      limits:
+        memory: 345Mi
+  twaAlarmNotif:
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 44Mi
+      limits:
+        memory: 58Mi
+  twaCore:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 50m
+        memory: 690Mi
+      limits:
+        memory: 920Mi
+  twaDev:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 50m
+        memory: 518Mi
+      limits:
+        memory: 690Mi
+  twaDevTaskFc:
+    replicaCount: 0
+  twaRan:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 50m
+        memory: 518Mi
+      limits:
+        memory: 690Mi
+  twaTaskRes:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 10m
+        memory: 260Mi
+      limits:
+        memory: 345Mi
 
 twa-admin:
   replicaCount: 2
   resources:
     requests:
       cpu: 20m
-      memory: 50Mi
+      memory: 130Mi
     limits:
-      memory: 80Mi
-
-twa-dev:
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 50m
-      memory: 360Mi
-    limits:
-      memory: 400Mi
-
-twa-ran:
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 50m
-      memory: 300Mi
-    limits:
-      memory: 400Mi
-
-twa-task-res:
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 10m
-      memory: 250Mi
-    limits:
-      memory: 320Mi
-
-twa-alarm-notif:
-  replicaCount: 1
-  resources:
-    requests:
-      cpu: 10m
-      memory: 40Mi
-    limits:
-      memory: 55Mi
-
-task-notif-ws:
-  replicaCount: 1
-  resources:
-    requests:
-      cpu: 10m
-      memory: 240Mi
-    limits:
-      memory: 360Mi
-
+      memory: 173Mi
 tpx-flow:
   sqlUpgrade:
     resources:
@@ -475,49 +470,49 @@ tpx-flow:
     resources:
       requests:
         cpu: 200m
-        memory: 100Mi
+        memory: 216Mi
       limits:
-        memory: 150Mi
+        memory: 288Mi
   supervisor:
     replicaCount: 1
     resources:
       requests:
         cpu: 50m
-        memory: 248Mi
+        memory: 260Mi
       limits:
-        memory: 330Mi
+        memory: 345Mi
   hub:
     replicaCount: 2
     resources:
       requests:
         cpu: 50m
-        memory: 248Mi
+        memory: 260Mi
       limits:
-        memory: 330Mi
+        memory: 345Mi
   bridge:
     replicaCount: 1
     resources:
       requests:
         cpu: 50m
-        memory: 248Mi
+        memory: 260Mi
       limits:
-        memory: 330Mi
+        memory: 345Mi
   api:
     replicaCount: 2
     resources:
       requests:
         cpu: 50m
-        memory: 248Mi
+        memory: 260Mi
       limits:
-        memory: 330Mi
+        memory: 345Mi
   ui:
     replicaCount: 1
     resources:
       requests:
         cpu: 10m
-        memory: 20Mi
+        memory: 44Mi
       limits:
-        memory: 40Mi
+        memory: 58Mi
 
 tpdx-tpe:
   sqlUpgrade:
@@ -534,9 +529,9 @@ tpdx-tpe:
   resources:
     requests:
       cpu: 50m
-      memory: 250Mi
+      memory: 260Mi
     limits:
-      memory: 350Mi
+      memory: 345Mi
 
 tpe-toolkit:
   jobs:
@@ -556,35 +551,35 @@ nssa:
     resources:
       requests:
         cpu: 10m
-        memory: 40Mi
+        memory: 44Mi
       limits:
-        memory: 40Mi
+        memory: 58Mi
   spectrumAnalysis:
     replicaCount: 1
     resources:
       requests:
         cpu: 10m
-        memory: 40Mi
+        memory: 44Mi
       limits:
-        memory: 40Mi
+        memory: 58Mi
 
 wlogger:
   replicaCount: 2
   resources:
     requests:
       cpu: 10m
-      memory: 80Mi
+      memory: 130Mi
     limits:
-      memory: 100Mi
+      memory: 173Mi
 
 shellinabox:
   replicaCount: 1
   resources:
     requests:
       cpu: 10m
-      memory: 40Mi
+      memory: 44Mi
     limits:
-      memory: 55Mi
+      memory: 58Mi
 
 # Configuration for controllers
 ingress-nginx:

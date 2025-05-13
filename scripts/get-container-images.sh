@@ -50,7 +50,6 @@ EOF
 }
 
 error() {
-  (( error_counter++ ))
   printf "${red}$(date): [error]: %s${reset}\\n" "${*}" 1>&2
 }
 

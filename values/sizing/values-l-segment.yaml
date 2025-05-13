@@ -6,7 +6,7 @@ global:
 kafka-cluster:
   kafka:
     persistence:
-      storageSize: 20Gi
+      storageSize: 30Gi
     config:
       num.replica.fetchers: 3
     jvmOptions:
@@ -15,9 +15,9 @@ kafka-cluster:
     resources:
       requests:
         cpu: 150m
-        memory: 735Mi
+        memory: 1155Mi
       limits:
-        memory: 980Mi
+        memory: 1540Mi
   zookeeper:
     persistence:
       storageSize: 5Gi
@@ -38,9 +38,9 @@ mongo-replicaset:
     resources:
       requests:
         cpu: 400m
-        memory: 4080Mi
+        memory: 2295Mi
       limits:
-        memory: 4080Mi
+        memory: 3060Mi
   arbiter:
     resources:
       requests:
@@ -61,13 +61,13 @@ zookeeper:
 
 mariadb-galera:
   persistence:
-    size: 10Gi
+    size: 15Gi
   resources:
-    limits:
-      memory: 1040Mi
     requests:
       cpu: 150m
-      memory: 520Mi
+      memory: 760Mi
+    limits:
+      memory: 1040Mi
   mariadbConfiguration: |-
     [client]
     port=3306
@@ -107,9 +107,7 @@ mariadb-galera:
     sysdate_is_now=1
 
     ## Binary Logging
-    log_bin=mysql-bin
-    expire_logs_days=14
-    # Disabling for performance per http://severalnines.com/blog/9-tips-going-production-galera-cluster-mysql
+    disable_log_bin=1
     sync_binlog=0
     # Required for Galera
     binlog_format=row
@@ -197,7 +195,7 @@ mariadb-galera:
     wsrep_provider_options = gcache.size=2G;gcs.fc_limit=60;gcs.fc_factor=0.8;gmcast.segment=0
     innodb_flush_log_at_trx_commit=2
     # MYISAM REPLICATION SUPPORT #
-    wsrep_replicate_myisam=ON
+    wsrep_mode=REPLICATE_MYISAM
 
     ### Maximum number of rows in write set
     wsrep_max_ws_rows                        = 0
@@ -222,9 +220,9 @@ lrc:
     resources:
       requests:
         cpu: 200m
-        memory: 525Mi
+        memory: 1200Mi
       limits:
-        memory: 700Mi
+        memory: 1600Mi
     lrcIni:
       kafkalateul:
         enabled: 1
@@ -234,37 +232,37 @@ lrc:
     resources:
       requests:
         cpu: 20m
-        memory: 45Mi
+        memory: 50Mi
       limits:
-        memory: 60Mi
+        memory: 65Mi
   lrcSync:
     resources:
       requests:
         cpu: 20m
-        memory: 90Mi
+        memory: 100Mi
       limits:
-        memory: 120Mi
+        memory: 200Mi
   sftp:
     resources:
       requests:
         cpu: 20m
-        memory: 45Mi
+        memory: 50Mi
       limits:
-        memory: 60Mi
+        memory: 65Mi
   rfscanBatch:
     resources:
       requests:
         cpu: 20m
-        memory: 45Mi
+        memory: 50Mi
       limits:
-        memory: 60Mi
+        memory: 65Mi
   lrrFwFetch:
     resources:
       requests:
         cpu: 20m
-        memory: 45Mi
+        memory: 50Mi
       limits:
-        memory: 60Mi
+        memory: 65Mi
 
 sql-proxy:
   replicaCount: 2
@@ -276,9 +274,9 @@ sql-proxy:
   resources:
     requests:
       cpu: 100m
-      memory: 135Mi
+      memory: 150Mi
     limits:
-      memory: 180Mi
+      memory: 195Mi
 
 lrc-proxy:
   replicaCount: 2
@@ -297,7 +295,7 @@ support:
       cpu: 50m
       memory: 90Mi
     limits:
-      memory: 120Mi
+      memory: 130Mi
 
 wireless-pki:
   sqlUpgrade:
@@ -326,48 +324,47 @@ wireless-pki:
   resources:
     requests:
       cpu: 50m
-      memory: 900Mi
+      memory: 780Mi
     limits:
-      memory: 1000Mi
+      memory: 1040Mi
 
 cups-server:
   replicaCount: 1
   resources:
     requests:
       cpu: 20m
-      memory: 45Mi
+      memory: 50Mi
     limits:
-      memory: 60Mi
+      memory: 65Mi
 
 locsolver:
   replicaCount: 1
   resources:
     requests:
       cpu: 20m
-      memory: 45Mi
+      memory: 50Mi
     limits:
-      memory: 60Mi
+      memory: 65Mi
 
 tp-gui:
   replicaCount: 2
   resources:
     requests:
       cpu: 10m
-      memory: 45Mi
+      memory: 50Mi
     limits:
-      memory: 60Mi
+      memory: 65Mi
 
 smp-tpe:
   replicaCount: 2
   resources:
     requests:
       cpu: 10m
-      memory: 54Mi
+      memory: 60Mi
     limits:
-      memory: 72Mi
+      memory: 78Mi
 
 twa:
-  replicaCount: 2
   cron:
     resources:
       requests:
@@ -393,12 +390,56 @@ twa:
       requests:
         cpu: 25m
         memory: 64Mi
-  resources:
-    requests:
-      cpu: 50m
-      memory: 720Mi
-    limits:
-      memory: 960Mi
+  taskNotifWs:
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 20m
+        memory: 295Mi
+      limits:
+        memory: 390Mi
+  twaAlarmNotif:
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 50Mi
+      limits:
+        memory: 65Mi
+  twaCore:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 50m
+        memory: 780Mi
+      limits:
+        memory: 1040Mi
+  twaDev:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 50m
+        memory: 585Mi
+      limits:
+        memory: 780Mi
+  twaDevTaskFc:
+    replicaCount: 0
+  twaRan:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 50m
+        memory: 585Mi
+      limits:
+        memory: 780Mi
+  twaTaskRes:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 20m
+        memory: 295Mi
+      limits:
+        memory: 390Mi
 
 twa-admin:
   replicaCount: 2
@@ -407,52 +448,7 @@ twa-admin:
       cpu: 20m
       memory: 40Mi
     limits:
-      memory: 180Mi
-
-twa-dev:
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 50m
-      memory: 450Mi
-    limits:
-      memory: 500Mi
-
-twa-ran:
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 50m
-      memory: 450Mi
-    limits:
-      memory: 500Mi
-
-twa-task-res:
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 20m
-      memory: 270Mi
-    limits:
-      memory: 360Mi
-
-twa-alarm-notif:
-  replicaCount: 1
-  resources:
-    requests:
-      cpu: 10m
-      memory: 45Mi
-    limits:
-      memory: 60Mi
-
-task-notif-ws:
-  replicaCount: 1
-  resources:
-    requests:
-      cpu: 20m
-      memory: 300Mi
-    limits:
-      memory: 350Mi
+      memory: 195Mi
 
 tpx-flow:
   sqlUpgrade:
@@ -475,49 +471,49 @@ tpx-flow:
     resources:
       requests:
         cpu: 500m
-        memory: 100Mi
+        memory: 245Mi
       limits:
-        memory: 150Mi
+        memory: 325Mi
   supervisor:
     replicaCount: 1
     resources:
       requests:
         cpu: 150m
-        memory: 270Mi
+        memory: 295Mi
       limits:
-        memory: 360Mi
+        memory: 390Mi
   hub:
     replicaCount: 2
     resources:
       requests:
         cpu: 150m
-        memory: 270Mi
+        memory: 295Mi
       limits:
-        memory: 350Mi
+        memory: 390Mi
   bridge:
     replicaCount: 1
     resources:
       requests:
         cpu: 150m
-        memory: 270Mi
+        memory: 295Mi
       limits:
-        memory: 350Mi
+        memory: 390Mi
   api:
     replicaCount: 2
     resources:
       requests:
         cpu: 50m
-        memory: 270Mi
+        memory: 295Mi
       limits:
-        memory: 360Mi
+        memory: 390Mi
   ui:
     replicaCount: 1
     resources:
       requests:
         cpu: 20m
-        memory: 45Mi
+        memory: 50Mi
       limits:
-        memory: 60Mi
+        memory: 65Mi
 
 tpdx-tpe:
   replicaCount: 2
@@ -534,9 +530,9 @@ tpdx-tpe:
   resources:
     requests:
       cpu: 50m
-      memory: 270Mi
+      memory: 295Mi
     limits:
-      memory: 350Mi
+      memory: 390Mi
 
 tpe-toolkit:
   jobs:
@@ -556,35 +552,35 @@ nssa:
     resources:
       requests:
         cpu: 20m
-        memory: 45Mi
+        memory: 50Mi
       limits:
-        memory: 60Mi
+        memory: 65Mi
   spectrumAnalysis:
     replicaCount: 1
     resources:
       requests:
         cpu: 20m
-        memory: 45Mi
+        memory: 50Mi
       limits:
-        memory: 60Mi
+        memory: 65Mi
 
 wlogger:
   replicaCount: 2
   resources:
     requests:
       cpu: 20m
-      memory: 135Mi
+      memory: 150Mi
     limits:
-      memory: 180Mi
+      memory: 195Mi
 
 shellinabox:
   replicaCount: 1
   resources:
     requests:
       cpu: 20m
-      memory: 45Mi
+      memory: 50Mi
     limits:
-      memory: 60Mi
+      memory: 65Mi
 
 # Configuration for controllers
 ingress-nginx:
