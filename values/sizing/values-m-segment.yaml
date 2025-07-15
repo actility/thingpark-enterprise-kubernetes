@@ -65,9 +65,9 @@ mariadb-galera:
   resources:
     requests:
       cpu: 150m
-      memory: 400Mi
+      memory: 550Mi
     limits:
-      memory: 540Mi
+      memory: 700Mi
   mariadbConfiguration: |-
     [client]
     port=3306
