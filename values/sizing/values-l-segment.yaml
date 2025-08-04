@@ -324,9 +324,9 @@ wireless-pki:
   resources:
     requests:
       cpu: 50m
-      memory: 780Mi
+      memory: 975Mi
     limits:
-      memory: 1040Mi
+      memory: 1300Mi
 
 cups-server:
   replicaCount: 1
