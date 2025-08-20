@@ -479,9 +479,9 @@ tpx-flow:
     resources:
       requests:
         cpu: 150m
-        memory: 295Mi
+        memory: 187Mi
       limits:
-        memory: 390Mi
+        memory: 250Mi
   hub:
     replicaCount: 2
     resources:
@@ -495,17 +495,17 @@ tpx-flow:
     resources:
       requests:
         cpu: 150m
-        memory: 295Mi
+        memory: 540Mi
       limits:
-        memory: 390Mi
+        memory: 720Mi
   api:
     replicaCount: 2
     resources:
       requests:
         cpu: 50m
-        memory: 295Mi
+        memory: 187Mi
       limits:
-        memory: 390Mi
+        memory: 250Mi
   ui:
     replicaCount: 1
     resources:
