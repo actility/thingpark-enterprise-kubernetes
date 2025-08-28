@@ -50,6 +50,12 @@ repository.thingpark.com/thingpark-kubernetes/twa-sql:19.14.2-1
 repository.thingpark.com/thingpark-kubernetes/twa-task-res:6.4.0
 repository.thingpark.com/thingpark-kubernetes/ual-sql:5.0.0
 repository.thingpark.com/thingpark-kubernetes/wlogger:16.4.1
+quay.io/strimzi/kafka:0.45.0-kafka-3.9.0
+quay.io/strimzi/operator:0.45.0
+repository.thingpark.com/bitnami/mariadb-galera:11.4.7-debian-12-r3
+repository.thingpark.com/bitnami/zookeeper:3.8.4-debian-12-r17
+repository.thingpark.com/percona-server-mongodb:7.0.18-11
+repository.thingpark.com/percona-server-mongodb-operator:1.20.1
 repository.thingpark.com/percona-server-mongodb-operator:1.20.1
 repository.thingpark.com/strimzi/operator:0.45.0
 repository.thingpark.com/ingress-nginx/controller:v1.12.2
