@@ -292,9 +292,9 @@ lrc-proxy:
     resources:
       requests:
         cpu: 10m
-        memory: 41Mi
+        memory: 40Mi
       limits:
-        memory: 55Mi
+        memory: 100Mi
 
 support:
   replicaCount: 1

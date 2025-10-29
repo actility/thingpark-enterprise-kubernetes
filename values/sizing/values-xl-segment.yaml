@@ -34,7 +34,7 @@ kafka-cluster:
 mongo-replicaset:
   persistence:
     local: false
-    size: 20Gi
+    size: 40Gi
   replicaSet:
     resources:
       requests:
@@ -294,7 +294,7 @@ lrc-proxy:
         cpu: 10m
         memory: 60Mi
       limits:
-        memory: 80Mi
+        memory: 150Mi
 
 support:
   replicaCount: 1
