@@ -247,9 +247,9 @@ lrc: # 387 for all pods
     resources:
       requests:
         cpu: 10m
-        memory: 82Mi
+        memory: 165Mi
       limits:
-        memory: 110Mi
+        memory: 220Mi
   sftp:
     resources:
       requests:

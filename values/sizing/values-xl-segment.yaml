@@ -247,9 +247,9 @@ lrc:
     resources:
       requests:
         cpu: 40m
-        memory: 120Mi
+        memory: 240Mi
       limits:
-        memory: 160Mi
+        memory: 320Mi
   sftp:
     resources:
       requests:
