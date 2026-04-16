@@ -335,6 +335,7 @@ wireless-pki:
       memory: 825Mi
     limits:
       memory: 1100Mi
+      cpu: 4
 
 cups-server:
   replicaCount: 1
@@ -422,6 +423,7 @@ twa:
         memory: 660Mi
       limits:
         memory: 880Mi
+        cpu: 4
   twaDev:
     replicaCount: 2
     resources:
