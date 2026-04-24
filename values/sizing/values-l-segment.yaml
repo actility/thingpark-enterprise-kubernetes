@@ -193,7 +193,7 @@ mariadb-galera:
 
     [galera]
     wsrep_on=ON
-    wsrep_provider=/opt/bitnami/mariadb/lib/libgalera_smm.so
+    wsrep_provider=/usr/lib/galera/libgalera_smm.so
     wsrep_sst_method=mariabackup
     wsrep_slave_threads=4
     wsrep_cluster_address=gcomm://
@@ -475,7 +475,7 @@ tpx-flow:
       requests:
         cpu: 25m
         memory: 64Mi
-  engine:
+  driver:
     replicaCount: 2
     resources:
       requests:
@@ -490,7 +490,7 @@ tpx-flow:
         cpu: 150m
         memory: 187Mi
       limits:
-        memory: 250Mi
+        memory: 350Mi
   hub:
     replicaCount: 2
     resources:
@@ -514,7 +514,7 @@ tpx-flow:
         cpu: 50m
         memory: 187Mi
       limits:
-        memory: 250Mi
+        memory: 350Mi
   ui:
     replicaCount: 1
     resources:
