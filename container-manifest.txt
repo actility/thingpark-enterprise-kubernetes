@@ -6,7 +6,7 @@ repository.thingpark.com/thingpark-kubernetes/haproxy:2.8.5-debian13-2
 repository.thingpark.com/thingpark-kubernetes/locsolver:1.2.32-1
 repository.thingpark.com/thingpark-kubernetes/lrc:1.30.14-1-1
 repository.thingpark.com/thingpark-kubernetes/lrc-sync:3.2.0-1
-repository.thingpark.com/thingpark-kubernetes/nssa-histo-parser:2.12.9
+repository.thingpark.com/thingpark-kubernetes/nssa-histo-parser:2.12.11
 repository.thingpark.com/thingpark-kubernetes/nssa-mongo:1.0.1-8.1.0-1
 repository.thingpark.com/thingpark-kubernetes/nssa-network-survey:3.4.5
 repository.thingpark.com/thingpark-kubernetes/nssa-spectrum-analysis:4.6.1
@@ -44,7 +44,7 @@ repository.thingpark.com/thingpark-kubernetes/twa-alarm-notif:3.14.1-1
 repository.thingpark.com/thingpark-kubernetes/twa-dev:11.12.6
 repository.thingpark.com/thingpark-kubernetes/twa-mongo:19.26.7-1
 repository.thingpark.com/thingpark-kubernetes/twa-pum:19.26.7
-repository.thingpark.com/thingpark-kubernetes/twa-ran:10.6.2
+repository.thingpark.com/thingpark-kubernetes/twa-ran:10.6.3
 repository.thingpark.com/thingpark-kubernetes/twa-scripts:19.26.7-1
 repository.thingpark.com/thingpark-kubernetes/twa-sql:19.26.7-1
 repository.thingpark.com/thingpark-kubernetes/twa-task-res:6.6.1
