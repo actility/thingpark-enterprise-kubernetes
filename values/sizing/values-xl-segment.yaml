@@ -29,7 +29,7 @@ kafka-cluster:
         cpu: 100m
         memory: 250Mi
       limits:
-        memory: 300Mi
+        memory: 330Mi
 
 mongo-replicaset:
   persistence:
@@ -73,9 +73,9 @@ mariadb-galera:
   resources:
     requests:
       cpu: 400m
-      memory: 930Mi
+      memory: 2106Mi
     limits:
-      memory: 1240Mi
+      memory: 2808Mi
   mariadbConfiguration: |-
     [client]
     port=3306
@@ -420,18 +420,18 @@ twa:
     resources:
       requests:
         cpu: 50m
-        memory: 960Mi
+        memory: 1088Mi
       limits:
-        memory: 1280Mi
+        memory: 1450Mi
         cpu: 4
   twaDev:
     replicaCount: 2
     resources:
       requests:
         cpu: 50m
-        memory: 480Mi
+        memory: 548Mi
       limits:
-        memory: 640Mi
+        memory: 730Mi
   twaDevTaskFc:
     replicaCount: 0
   twaRan:
@@ -439,9 +439,9 @@ twa:
     resources:
       requests:
         cpu: 50m
-        memory: 480Mi
+        memory: 548Mi
       limits:
-        memory: 640Mi
+        memory: 730Mi
   twaTaskRes:
     replicaCount: 2
     resources:
@@ -489,17 +489,17 @@ tpx-flow:
     resources:
       requests:
         cpu: 200m
-        memory: 187Mi
+        memory: 300Mi
       limits:
-        memory: 350Mi
+        memory: 400Mi
   hub:
     replicaCount: 2
     resources:
       requests:
         cpu: 200m
-        memory: 360Mi
+        memory: 412Mi
       limits:
-        memory: 480Mi
+        memory: 550Mi
   bridge:
     replicaCount: 1
     resources:
@@ -513,9 +513,9 @@ tpx-flow:
     resources:
       requests:
         cpu: 200m
-        memory: 187Mi
+        memory: 300Mi
       limits:
-        memory: 350Mi
+        memory: 400Mi
   ui:
     replicaCount: 1
     resources:
