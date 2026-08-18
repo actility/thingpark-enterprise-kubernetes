@@ -1,0 +1,12 @@
+global:
+  hub: repository.thingpark.com/istio
+  imagePullSecrets:
+    - name: "thingpark-image-pull-secret"
+gatewayClasses:
+  istio:
+    deployment:
+      spec:
+        replicas: 2
+pilot:
+  env:
+    PILOT_ENABLE_ALPHA_GATEWAY_API: true
