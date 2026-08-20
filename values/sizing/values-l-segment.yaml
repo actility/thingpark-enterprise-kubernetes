@@ -281,9 +281,9 @@ sql-proxy:
   resources:
     requests:
       cpu: 100m
-      memory: 90Mi
+      memory: 128Mi
     limits:
-      memory: 120Mi
+      memory: 170Mi
 
 lrc-proxy:
   replicaCount: 2
