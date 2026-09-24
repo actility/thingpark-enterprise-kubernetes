@@ -2,7 +2,7 @@ global:
   # Update the image repository for Istio components when using a private registry
   hub: repository.thingpark.com/istio
   imagePullSecrets:
-    - name: "thingpark-image-pull-secret"
+    - "thingpark-image-pull-secret"
 gatewayClasses:
   istio:
     deployment:
