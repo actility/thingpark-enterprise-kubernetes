@@ -30,7 +30,7 @@ repository.thingpark.com/thingpark-kubernetes/tpdx-admin-database:5.8.1-1
 repository.thingpark.com/thingpark-kubernetes/tpdx-admin-tpe:5.8.1
 repository.thingpark.com/thingpark-kubernetes/tpdx-core-tpe:4.6.2
 repository.thingpark.com/thingpark-kubernetes/tpe-seeder:2.2.0-1
-repository.thingpark.com/thingpark-kubernetes/tp-gui:2.2.0-1
+repository.thingpark.com/thingpark-kubernetes/tp-gui:2.2.1-1
 repository.thingpark.com/thingpark-kubernetes/tpx-flow-api:1.8.3d
 repository.thingpark.com/thingpark-kubernetes/tpx-flow-bridge:1.8.3d
 repository.thingpark.com/thingpark-kubernetes/tpx-flow-database:1.8.3d
