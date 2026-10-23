@@ -8,8 +8,8 @@ repository.thingpark.com/thingpark-kubernetes/lrc:1.30.14-1-1
 repository.thingpark.com/thingpark-kubernetes/lrc-sync:3.2.0-1
 repository.thingpark.com/thingpark-kubernetes/nssa-histo-parser:2.12.11
 repository.thingpark.com/thingpark-kubernetes/nssa-mongo:1.0.1-8.1.0-1
-repository.thingpark.com/thingpark-kubernetes/nssa-network-survey:3.4.5
-repository.thingpark.com/thingpark-kubernetes/nssa-spectrum-analysis:4.6.1
+repository.thingpark.com/thingpark-kubernetes/nssa-network-survey:3.4.5a
+repository.thingpark.com/thingpark-kubernetes/nssa-spectrum-analysis:4.6.3
 repository.thingpark.com/thingpark-kubernetes/proxysql:2.7.3-8.1.5-1
 repository.thingpark.com/thingpark-kubernetes/proxysql-init:2.7.3-8.1.5-1
 repository.thingpark.com/thingpark-kubernetes/pum-server:1.7.1-8.1.5-1
@@ -39,7 +39,7 @@ repository.thingpark.com/thingpark-kubernetes/tpx-flow-hub:1.8.3d
 repository.thingpark.com/thingpark-kubernetes/tpx-flow-supervisor:1.8.3d
 repository.thingpark.com/thingpark-kubernetes/tpx-flow-ui:3.30.2
 repository.thingpark.com/thingpark-kubernetes/twa:19.26.7
-repository.thingpark.com/thingpark-kubernetes/twa-admin:18.2.3-1
+repository.thingpark.com/thingpark-kubernetes/twa-admin:18.2.4-1
 repository.thingpark.com/thingpark-kubernetes/twa-alarm-notif:3.14.1-1
 repository.thingpark.com/thingpark-kubernetes/twa-dev:11.12.6
 repository.thingpark.com/thingpark-kubernetes/twa-mongo:19.26.7-1
