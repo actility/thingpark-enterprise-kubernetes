@@ -12,8 +12,8 @@ repository.thingpark.com/thingpark-kubernetes/nssa-network-survey:3.4.5a
 repository.thingpark.com/thingpark-kubernetes/nssa-spectrum-analysis:4.6.3
 repository.thingpark.com/thingpark-kubernetes/proxysql:2.7.3-8.1.5-1
 repository.thingpark.com/thingpark-kubernetes/proxysql-init:2.7.3-8.1.5-1
-repository.thingpark.com/thingpark-kubernetes/pum-server:1.7.2-8.1.5-1
-repository.thingpark.com/thingpark-kubernetes/pum-sql:1.7.2-8.1.5-1
+repository.thingpark.com/thingpark-kubernetes/pum-server:1.7.2a-8.1.5-1
+repository.thingpark.com/thingpark-kubernetes/pum-sql:1.7.2a-8.1.5-1
 repository.thingpark.com/thingpark-kubernetes/rca-cron:7.1.1-1
 repository.thingpark.com/thingpark-kubernetes/rca-distroless:7.1.2-1
 repository.thingpark.com/thingpark-kubernetes/rca-provisioning-mongo:6.2.1
