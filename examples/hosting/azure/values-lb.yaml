@@ -1,6 +1,21 @@
+# Usage of Ingress is now deprecated in favor of Gateway API. This configuration is kept for backward compatibility with existing deployments.
 ingress-nginx:
+  enabled: false
   controller:
     service:
       annotations:
         service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: "/healthz"
 
+global:
+  gatewayApi:
+    enabled: true
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz/ready
+      service.beta.kubernetes.io/port_80_health-probe_port: "15021"
+      service.beta.kubernetes.io/port_443_health-probe_port: "15021"
+      service.beta.kubernetes.io/port_443_health-probe_protocol: HTTP
+      service.beta.kubernetes.io/port_4443_health-probe_port: "15021"
+      service.beta.kubernetes.io/port_3001_health-probe_port: "15021"
+      service.beta.kubernetes.io/port_3101_health-probe_port: "15021"
+      service.beta.kubernetes.io/port_3002_health-probe_port: "15021"
+      service.beta.kubernetes.io/port_2022_health-probe_port: "15021"
